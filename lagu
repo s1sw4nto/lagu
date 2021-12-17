@@ -8,6 +8,7 @@
 # pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu && chmod a+rx lagu && ./lagu install
 # wget lagu jika error
 # wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
+URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu"
 DIR="$HOME/storage/shared/TermuxFiles/"
 YOUTUBE_DL="$PREFIX/bin/youtube-dl"
 HOME="$HOME"
@@ -650,10 +651,10 @@ case $fav in
           echo "-------------------"
    else
           clear
-          #wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu
+          #wget $URLUPDATE -O lagu
           #cp lagu $PREFIX/bin/lagu
           #rm lagu
-          wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
+          wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           pkg reinstall openssl
