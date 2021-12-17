@@ -5,9 +5,9 @@
 # rm -rf $PREFIX/var/lib/apt/lists/lock
 # rm -rf $PREFIX/var/lib/dpkg/lock-frontend
 # pkg update
-# pkg install wget -y && wget https://id.radioimzers.com:81/lagu -O lagu && chmod a+rx lagu && ./lagu install
+# pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu && chmod a+rx lagu && ./lagu install
 # wget lagu jika error
-# wget https://id.radioimzers.com:81/lagu -O $PREFIX/bin/lagu 
+# wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
 DIR="$HOME/storage/shared/TermuxFiles/"
 YOUTUBE_DL="$PREFIX/bin/youtube-dl"
 HOME="$HOME"
@@ -650,10 +650,10 @@ case $fav in
           echo "-------------------"
    else
           clear
-          #wget https://id.radioimzers.com:81/lagu -O lagu
+          #wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu
           #cp lagu $PREFIX/bin/lagu
           #rm lagu
-          wget https://id.radioimzers.com:81/lagu -O $PREFIX/bin/lagu 
+          wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           pkg reinstall openssl
