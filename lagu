@@ -22,7 +22,7 @@ rm -rf wget.log
 
 command(){
 PS3='Pilih Nomer: '
-menus=("Mp3 Normal" "Mp3 Custom" "Video Normal" "Video Custom" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Stop / Exit")
+menus=("Mp3 Normal" "Mp3 Custom" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Stop / Exit")
 echo "-----------------"
 echo "Pilih salah satu:"
 echo "-----------------"
@@ -224,6 +224,68 @@ case $fav in
     echo "Poses Ini butuh waktu lama, sesuai durasi"
     echo "-----------------"
     ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -user_agent "$user_agent" -i "$video" -ss 00:"$start" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+     # -ss 00:00:$start
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di sdcard/TermuxFiles"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Video Start End")
+      clear
+      echo "-----------------"
+      echo "Convert Video Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      echo "Enter End time: 10:03 (End 10 menit 3 detik)"
+      echo "-----------------"
+      read end
+      echo "-----------------"
+      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      echo "-----------------"
+      read vol
+      echo "-----------------"
+      echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    echo "$audio"
+    echo "-----------------"
+    echo "$video"
+    echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    echo "Poses Ini butuh waktu lama, sesuai durasi"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -t 00:"$end" -user_agent "$user_agent" -i "$video" -ss 00:"$start" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
