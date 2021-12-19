@@ -22,7 +22,7 @@ rm -rf wget.log
 
 command(){
 PS3='Pilih Nomer: '
-menus=("Mp3 Normal" "Mp3 Custom" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Stop / Exit")
+menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Stop / Exit")
 echo "-----------------"
 echo "Pilih salah satu:"
 echo "-----------------"
@@ -136,7 +136,7 @@ case $fav in
       echo "-----------------"
       read start
       echo "-----------------"
-      echo "Enter End time: 10:03 (End 10 menit 3 detik)"
+      echo "Enter End time: 10:03 (End 10 menit 3 detik)
       echo "-----------------"
       read end
       echo "-----------------"
