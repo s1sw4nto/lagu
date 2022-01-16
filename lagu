@@ -777,6 +777,9 @@ case $fav in
           echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
+          echo "Youtube dl Version"
+          $YOUTUBE_DL --version
+          echo "-------------------"
           echo "Ketik: lagu"
           echo "-------------------"
           exit
