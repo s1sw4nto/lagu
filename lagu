@@ -805,11 +805,11 @@ case $fav in
                   echo "File exist"
            else
                   echo "File not exist"
-                  cd .ssh
+                  cd $HOME/.ssh
                   ls -lh
-                  #echo "Host *" > config
-                  #echo "HostkeyAlgorithms +ssh-dss" >> config
-                  #echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
+                  echo "Host *" > config
+                  echo "HostkeyAlgorithms +ssh-dss" >> config
+                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
                   cat config
                   cd
                   read host
