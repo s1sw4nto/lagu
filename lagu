@@ -12,7 +12,7 @@ URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu"
 DIR="$HOME/storage/shared/TermuxFiles/"
 YOUTUBE_DL="$PREFIX/bin/youtube-dl"
 HOME="$HOME"
-RADIO="$HOME/radio.txt"
+RADIO=$HOME/radio.txt
 #youtube-dl --dump-user-agent
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.100 Safari/537.36"
 #echo $HOME
@@ -801,7 +801,7 @@ case $fav in
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          if [ -f $host ]; then
+          if [ -f "$RADIO" ]; then
                   echo "File exist"
            else
                   echo "Host *" > .ssh/config
