@@ -819,17 +819,23 @@ case $fav in
                   echo "-----------------"
                   read paswd
                   echo "$paswd" >> $RADIO
+                  export SSHPASS="$paswd"
+                  ssh -T -p $port -n build@$host & exit
           fi
           read -p "Stop.Radio ? y/n: " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
           echo "-----------------"
-          case $yn in
+          case $ync in
                      [Yy]* ) sshpass -e ssh -T -p $port -n build@$host './radio stop'
                      ;;
                      [Nn]* ) sshpass -e ssh -T -p $port -n build@$host './radio start'
                      ;;
-                     [Cc]* ) rm -rf $RADIO
+                     [Cc]* ) echo "Clear settings"
+                                  rm -rf $RADIO
+                                  cd $HOME/.ssh
+                                  rm -rf known_hosts
+                                  cd $HOME
                      ;;
                      * ) echo "Please answer yes or no.";;
            esac
