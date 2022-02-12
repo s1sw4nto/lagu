@@ -540,8 +540,8 @@ case $fav in
 ;;
 "PlayBack")
       clear
-      rm -rf cookies
       rm -rf *.aria2
+      COOKIES="cookies"
       echo "-----------------"
       echo "PlayBack Best Code"
       echo "-----------------"
@@ -556,7 +556,8 @@ case $fav in
           case $yn in
                      [Vv]* ) 
                      
-      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url)
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url --cookies=${COOKIES})
+      
       echo "$video"
       echo "-----------------"
       judul
@@ -564,7 +565,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      aria2c -c -j 16 -x 16 -s 16 -k 1M -U "$user_agent" -o "$title".mp4 "$video"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp4 "$video"
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -583,7 +584,6 @@ case $fav in
      exit
      ;;
      [Mm]* ) 
-     COOKIES="cookies"
      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
       echo "$audio"
       echo "-----------------"
