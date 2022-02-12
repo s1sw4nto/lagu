@@ -776,7 +776,6 @@ case $fav in
           pkg reinstall openssl -y
 
           pkg install openssh -y
-          clear
           pkg install sshpass -y
 
           clear
