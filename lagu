@@ -802,7 +802,7 @@ case $fav in
           echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
           echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
           #cat .ssh/config
-         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "./radio restart"
+         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "./radio start"
          exit
 ;;
 "Stop / Exit")
