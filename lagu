@@ -799,7 +799,7 @@ case $fav in
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          if [ -f "$RADIO" ]; then
+          if [ -d "$RADIO" ]; then
                   echo "File exist'
            else
                   echo "Host *" > .ssh/config
@@ -813,7 +813,15 @@ case $fav in
                   read paswd
                   echo "$paswd" >> $RADIO
           fi
-          
+          read -p "Stop.Radio ? y/n: " yn
+          echo "-----------------"
+          case $yn in
+                     [Yy]* ) sshpass -e ssh -T -p $port -n build@$host "./radio stop"
+                     ;;
+                     [Nn]* ) sshpass -e ssh -T -p $port -n build@$host "./radio start"
+                     ;;
+                     * ) echo "Please answer yes or no.";;
+           esac
            exit
 ;;
 "Stop / Exit")
