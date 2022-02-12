@@ -825,14 +825,14 @@ case $fav in
                   ssh -T -p $port -n build@$host 
                   exit
           fi
-          read -p "Stop.Radio ? y/n/c: " yn
+          read -p "Mau siaran: Ya - Selesai siaran: Ok  - Hapus: C " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
           echo "-----------------"
           case $yn in
                      [Yy]* ) sshpass -e ssh -T -p $port -n build@$host './radio stop'
                      ;;
-                     [Nn]* ) sshpass -e ssh -T -p $port -n build@$host './radio start'
+                     [Oo]* ) sshpass -e ssh -T -p $port -n build@$host './radio start'
                      ;;
                      [Cc]* ) echo "Clear settings"
                                   rm -rf $RADIO
