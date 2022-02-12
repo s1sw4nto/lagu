@@ -806,12 +806,11 @@ case $fav in
            else
                   echo "File not exist"
                   cd $HOME/.ssh
-                  ls -lh
                   echo "Host *" > config
                   echo "HostkeyAlgorithms +ssh-dss" >> config
                   echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
-                  cat config
-                  cd
+                  #cat config
+                  cd $HOME
                   read host
                   echo "$host" > $RADIO
                   read port
