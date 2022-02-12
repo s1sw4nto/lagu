@@ -797,8 +797,6 @@ case $fav in
           port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           echo "-----------------"
-          export SSHPASS="$paswd"
-          #echo $SSHPASS
           if [[ -f "$RADIO" ]]; then
                   echo "File exist"
            else
@@ -823,11 +821,13 @@ case $fav in
                   echo "$paswd" >> $RADIO
           fi
           read -p "Stop.Radio ? y/n: " yn
+          export SSHPASS="$paswd"
+          #echo $SSHPASS
           echo "-----------------"
           case $yn in
-                     [Yy]* ) sshpass -e ssh -T -p $port -n build@$host "./radio stop"
+                     [Yy]* ) sshpass -e ssh -T -p "$port" -n build@"$host' "./radio stop"
                      ;;
-                     [Nn]* ) sshpass -e ssh -T -p $port -n build@$host "./radio start"
+                     [Nn]* ) sshpass -e ssh -T -p "$port" -n build@"$host" "./radio start"
                      ;;
                      [Cc]* ) rm -rf $RADIO
                      ;;
