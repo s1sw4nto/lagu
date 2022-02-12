@@ -791,14 +791,18 @@ case $fav in
     fi
 ;;
 "Radio")
+          clear
+          echo "-----------------"
+          echo "Masukan Password"
+          echo "-----------------"
           read pass
           export SSHPASS="$pass"
-          echo $SSHPASS
+          #echo $SSHPASS
           echo "Host *" > .ssh/config
           echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
           echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
-          cat .ssh/config
-         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj restart & exit"
+          #cat .ssh/config
+         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj restart"
          exit
 ;;
 "Stop / Exit")
