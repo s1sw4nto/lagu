@@ -1066,7 +1066,8 @@ case $1 in
           echo "unstable.list"
           echo "deb https://packages.termux.org/apt/termux-unstable unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
           echo "x11.list"
-          echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list.list
+          #echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list.list
+          echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list
           pkg clean
           pkg autoclean
           pkg update -y
