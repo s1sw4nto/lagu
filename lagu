@@ -811,10 +811,16 @@ case $fav in
                   echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
                   #cat config
                   cd $HOME
+                  echo "Enter Host:"
+                  echo "-----------------"
                   read host
                   echo "$host" > $RADIO
+                  echo "Enter Port"
+                  echo "-----------------"
                   read port
                   echo "$port" >> $RADIO
+                  echo "Enter Password:"
+                  echo "-----------------"
                   read paswd
                   echo "$paswd" >> $RADIO
           fi
@@ -824,6 +830,8 @@ case $fav in
                      [Yy]* ) sshpass -e ssh -T -p $port -n build@$host "./radio stop"
                      ;;
                      [Nn]* ) sshpass -e ssh -T -p $port -n build@$host "./radio start"
+                     ;;
+                     [Cc]* ) rm -rf $RADIO
                      ;;
                      * ) echo "Please answer yes or no.";;
            esac
