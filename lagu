@@ -187,7 +187,7 @@ case $fav in
       echo "-----------------"
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
-      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url")
+      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
       echo "$audio"
       echo "-----------------"
       judul
@@ -197,7 +197,8 @@ case $fav in
       echo "-----------------"
       echo "Poses Ini butuh waktu lama, sesuai durasi"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -user_agent "$user_agent" -i "$audio" -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -ss 00:00:"$start" -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" {}.mp3 && rm {}"
       clear
       lagu=$(find -type f -name "*.mp3")
