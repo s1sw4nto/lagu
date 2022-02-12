@@ -547,6 +547,13 @@ case $fav in
       echo "-----------------"
       read url
       echo "-----------------"
+      echo "Ketik: V , untuk video"
+      echo "Ketik: M , untuk mp3"
+          read -p "Pilih: " yn
+          echo "-----------------"
+          case $yn in
+                     [Vv]* ) 
+                     
       video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url)
       echo "$video"
       echo "-----------------"
@@ -555,7 +562,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      aria2c -c -j 3 -x 3 -s 3 -k 1M -U "$user_agent" -o "$title".mp4 "$video"
+      aria2c -c -j 16 -x 16 -s 16 -k 5M -U "$user_agent" -o "$title".mp4 "$video"
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -572,6 +579,34 @@ case $fav in
      rm -rf *.ytdl
      rm -rf *_-_*
      exit
+     ;;
+     [Mm]* ) 
+     
+     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url")
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp3"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 5M -U "$user_agent" -o "$title".mp3 "$audio"
+      clear
+      lagu=$(find -type f -name "*.mp3")
+      clear
+      echo "-----------------"
+      echo "Selesai"
+      echo "-----------------"
+      echo "Lagu MP3 tersimpan di sdcard/TermuxFiles"
+      echo "-----------------"
+      echo "$lagu"
+      echo "-----------------"
+      mv *.mp3 $DIR
+      rm -rf *_-_*
+      exit
+      ;;
+     * ) echo "Please answer video or mp3.";;
+     esac
 ;;
 "Crop")
       #https://www.linuxuprising.com/2020/01/ffmpeg-how-to-crop-videos-with-examples.html?m=1
