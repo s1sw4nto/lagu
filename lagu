@@ -22,7 +22,7 @@ rm -rf wget.log
 
 command(){
 PS3='Pilih Nomer: '
-menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Stop / Exit")
+menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Radio" "Stop / Exit")
 echo "-----------------"
 echo "Pilih salah satu:"
 echo "-----------------"
@@ -773,6 +773,11 @@ case $fav in
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           pkg reinstall openssl
+
+          pkg install openssh -y
+          clear
+          pkg install sshpass -y
+
           clear
           echo "-------------------"
           echo "Update selesai"
@@ -784,6 +789,15 @@ case $fav in
           echo "-------------------"
           exit
     fi
+;;
+"Radio")
+          export SSHPASS="asolole"
+          echo $SSHPASS
+          echo "Host *" > .ssh/config
+          echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
+          echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
+          cat .ssh/config
+         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj & exit"
 ;;
 "Stop / Exit")
    killall ffmpeg
@@ -953,6 +967,10 @@ case $1 in
           mkdir $HOME/storage/shared/TermuxFiles
           clear
           pkg install apt nano -y
+          clear
+          pkg install openssh -y
+          clear
+          pkg install sshpass -y
           clear
           pkg install python -y
           clear
