@@ -805,9 +805,9 @@ case $fav in
                   echo "File exist"
            else
                   echo "File not exist"
-                  echo "Host *" > .ssh/config
-                  echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
-                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
+                  echo "Host *" > $HOME.ssh/config
+                  echo "HostkeyAlgorithms +ssh-dss" >> $HOME.ssh/config
+                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> $HOME.ssh/config
                   #cat .ssh/config
                   read host
                   echo "$host" > $RADIO
