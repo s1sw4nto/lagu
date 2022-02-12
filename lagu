@@ -564,7 +564,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      aria2c -c -j 6 -x 6 -s 6 -k 5M -U "$user_agent" -o "$title".mp4 "$video"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M -U "$user_agent" -o "$title".mp4 "$video"
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -584,7 +584,7 @@ case $fav in
      ;;
      [Mm]* ) 
      COOKIES="cookies"
-     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
+     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=44100]/best" -i -g "$url" --cookies=${COOKIES})
       echo "$audio"
       echo "-----------------"
       judul
@@ -593,7 +593,7 @@ case $fav in
       echo "$title.mp3"
       echo "-----------------"
       cat $COOKIES
-      aria2c -c -j 6 -x 6 -s 6 -k 5M --load-cookies="$COOKIES" -U "$user_agent" -o "$title".mp3 "$audio"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U "$user_agent" -o "$title".mp3 "$audio"
       clear
       lagu=$(find -type f -name "*.mp3")
       clear
