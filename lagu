@@ -801,7 +801,7 @@ case $fav in
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          if [ -f "$RAD" ]; then
+          if [[ -f "$RAD" ]]; then
                   echo "File exist"
            else
                   echo "File not exist"
