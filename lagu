@@ -771,12 +771,12 @@ case $fav in
           #rm lagu
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
-          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          pkg reinstall openssl -y
+          #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          #pkg reinstall openssl -y
 
-          pkg install openssh -y
+          #pkg install openssh -y
           clear
-          pkg install sshpass -y
+          #pkg install sshpass -y
 
           clear
           echo "-------------------"
@@ -802,7 +802,7 @@ case $fav in
           echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
           echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
           #cat .ssh/config
-         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj restart"
+         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "./radio restart"
          exit
 ;;
 "Stop / Exit")
