@@ -797,11 +797,12 @@ case $fav in
           port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           
-          echo "$RADIO"
+          RAD=$(cat $RADIO | awk -F " " '{print}')
+          echo "$RAD"
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          if [ -f "$RADIO" ]; then
+          if [ -f "$RAD" ]; then
                   echo "File exist"
            else
                   echo "Host *" > .ssh/config
