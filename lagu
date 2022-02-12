@@ -825,9 +825,9 @@ case $fav in
           #echo $SSHPASS
           echo "-----------------"
           case $yn in
-                     [Yy]* ) sshpass -e ssh -T -p "$port" -n build@"$host' "./radio stop"
+                     [Yy]* ) sshpass -e ssh -T -p $port-n build@$host ./radio stop
                      ;;
-                     [Nn]* ) sshpass -e ssh -T -p "$port" -n build@"$host" "./radio start"
+                     [Nn]* ) sshpass -e ssh -T -p $port -n build@$host ./radio start
                      ;;
                      [Cc]* ) rm -rf $RADIO
                      ;;
