@@ -772,12 +772,12 @@ case $fav in
           #rm lagu
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
-          #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          #pkg reinstall openssl -y
+          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          pkg reinstall openssl -y
 
-          #pkg install openssh -y
+          pkg install openssh -y
           clear
-          #pkg install sshpass -y
+          pkg install sshpass -y
 
           clear
           echo "-------------------"
