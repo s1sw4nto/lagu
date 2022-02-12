@@ -822,11 +822,11 @@ case $fav in
                   export SSHPASS="$paswd"
                   ssh -T -p $port -n build@$host & exit
           fi
-          read -p "Stop.Radio ? y/n: " ync
+          read -p "Stop.Radio ? y/n: " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
           echo "-----------------"
-          case $ync in
+          case $yn in
                      [Yy]* ) sshpass -e ssh -T -p $port -n build@$host './radio stop'
                      ;;
                      [Nn]* ) sshpass -e ssh -T -p $port -n build@$host './radio start'
