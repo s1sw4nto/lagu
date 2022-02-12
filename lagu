@@ -774,10 +774,6 @@ case $fav in
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           pkg reinstall openssl -y
-
-          pkg install openssh -y
-          pkg install sshpass -y
-
           clear
           echo "-------------------"
           echo "Update selesai"
@@ -1057,20 +1053,20 @@ case $1 in
 "repo-update")
           clear
           echo "Main"
-          echo "deb https://termux.mentality.rip/termux-packages-24/ stable main" > $PREFIX/etc/apt/sources.list
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
           echo "Dpkg"
           echo "# The main termux repository:" > $PREFIX/etc/apt/sources.list.dpkg-dist
           echo "deb https://termux.org/packages/ stable main" >> $PREFIX/etc/apt/sources.list.dpkg-dist
           echo "Game"
-          echo "deb https://termux.mentality.rip/game-packages-24 games stable" > $PREFIX/etc/apt/sources.list.d/game.list
+          echo "deb https://packages.termux.org/apt/termux-games games stable" > $PREFIX/etc/apt/sources.list.d/game.list
           echo "Root"
-          echo "#deb https://termux.mentality.rip/termux-root-packages-24 root stable" > $PREFIX/etc/apt/sources.list.d/root.list
+          echo "#deb https://dl.bintray.com/grimler/termux-root-packages-24 root stable     #deb https://termux.mentality.rip/termux-root-packages-24 root stable" > $PREFIX/etc/apt/sources.list.d/root.list
           echo "Science"
-          echo "deb https://termux.mentality.rip/science-packages-24 science stable" > $PREFIX/etc/apt/sources.list.d/science.list
+          echo "deb https://packages.termux.org/apt/termux-science science stable" > $PREFIX/etc/apt/sources.list.d/science.list
           echo "unstable.list"
-          echo "deb https://termux.mentality.rip/unstable-packages unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
+          echo "deb https://packages.termux.org/apt/termux-unstable unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
           echo "x11.list"
-          echo "deb https://termux.mentality.rip/x11-packages x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list.list
+          echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list.list
           pkg clean
           pkg autoclean
           pkg update -y
