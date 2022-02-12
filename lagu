@@ -807,10 +807,10 @@ case $fav in
                   echo "File not exist"
                   cd .ssh
                   ls -lh
-                  echo "Host *" > config
-                  echo "HostkeyAlgorithms +ssh-dss" >> config
-                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
-                  #cat .ssh/config
+                  #echo "Host *" > config
+                  #echo "HostkeyAlgorithms +ssh-dss" >> config
+                  #echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
+                  cat config
                   cd
                   read host
                   echo "$host" > $RADIO
