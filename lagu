@@ -228,7 +228,7 @@ case $fav in
       read res
       echo "-----------------"
       #title=$($YOUTUBE_DL --get-filename -o "%(title)s" --restrict-filenames $url)
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
     video=$(cat link.txt | awk -F " " 'NR == 1{print}')
     audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
     echo "Proses Download dan Convert Video MP4"
@@ -249,7 +249,9 @@ case $fav in
     echo "-----------------"
     echo "Poses Ini butuh waktu lama, sesuai durasi"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
 
     #echo "$filename.mp4"
     #echo "-----------------"
