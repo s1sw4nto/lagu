@@ -807,14 +807,17 @@ case $fav in
                   echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
                   #cat config
                   cd $HOME
+                  echo "-----------------"
                   echo "Enter Host:"
                   echo "-----------------"
                   read host
                   echo "$host" > $RADIO
+                  echo "-----------------"
                   echo "Enter Port"
                   echo "-----------------"
                   read port
                   echo "$port" >> $RADIO
+                  echo "-----------------"
                   echo "Enter Password:"
                   echo "-----------------"
                   read paswd
@@ -822,7 +825,7 @@ case $fav in
                   export SSHPASS="$paswd"
                   ssh -T -p $port -n build@$host & exit
           fi
-          read -p "Stop.Radio ? y/n: " yn
+          read -p "Stop.Radio ? y/n/c: " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
           echo "-----------------"
