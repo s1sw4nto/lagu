@@ -796,7 +796,6 @@ case $fav in
           host=$(cat $RADIO | awk -F " " 'NR == 1{print}')
           port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
-          
           RAD=$(cat $RADIO | awk -F " " '{print}')
           echo "$RAD"
           echo "-----------------"
@@ -805,6 +804,7 @@ case $fav in
           if [ -f "$RAD" ]; then
                   echo "File exist"
            else
+                  echo "File not exist"
                   echo "Host *" > .ssh/config
                   echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
                   echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
