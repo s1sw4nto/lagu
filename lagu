@@ -797,15 +797,22 @@ case $fav in
           port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           echo "-----------------"
-          echo "Masukan Password"
-          echo "-----------------"
-          read pass
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          echo "Host *" > .ssh/config
-          echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
-          echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
-          #cat .ssh/config
+          if [ -f "$RADIO" ]; then
+                  echo "File exist'
+           else
+                  echo "Host *" > .ssh/config
+                  echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
+                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
+                  #cat .ssh/config
+                  read host
+                  echo "$host" > $RADIO
+                  read port
+                  echo "$port" >> $RADIO
+                  read paswd
+                  echo "$paswd" >> $RADIO
+          fi
           read -p "Stop.Radio ? y/n: " yn
           echo "-----------------"
           case $yn in
