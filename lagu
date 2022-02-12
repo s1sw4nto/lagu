@@ -540,6 +540,8 @@ case $fav in
 ;;
 "PlayBack")
       clear
+      rm -rf cookies
+      rm -rf *.aria2
       echo "-----------------"
       echo "PlayBack Best Code"
       echo "-----------------"
