@@ -12,6 +12,7 @@ URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu"
 DIR="$HOME/storage/shared/TermuxFiles/"
 YOUTUBE_DL="$PREFIX/bin/youtube-dl"
 HOME="$HOME"
+RADIO="$HOME/radio.txt"
 #youtube-dl --dump-user-agent
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.100 Safari/537.36"
 #echo $HOME
@@ -792,18 +793,29 @@ case $fav in
 ;;
 "Radio")
           clear
+          host=$(cat $RADIO | awk -F " " 'NR == 1{print}')
+          port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
+          paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           echo "-----------------"
           echo "Masukan Password"
           echo "-----------------"
           read pass
-          export SSHPASS="$pass"
+          export SSHPASS="$paswd"
           #echo $SSHPASS
           echo "Host *" > .ssh/config
           echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
           echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
           #cat .ssh/config
-         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "./radio start"
-         exit
+          read -p "Stop.Radio ? y/n: " yn
+          echo "-----------------"
+          case $yn in
+                     [Yy]* ) sshpass -e ssh -T -p $port -n build@$host "./radio stop"
+                     ;;
+                     [Nn]* ) sshpass -e ssh -T -p $port -n build@$host "./radio start"
+                     ;;
+                     * ) echo "Please answer yes or no.";;
+           esac
+           exit
 ;;
 "Stop / Exit")
    killall ffmpeg
