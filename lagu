@@ -772,7 +772,7 @@ case $fav in
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          pkg reinstall openssl
+          pkg reinstall openssl -y
 
           pkg install openssh -y
           clear
@@ -791,13 +791,15 @@ case $fav in
     fi
 ;;
 "Radio")
-          export SSHPASS="asolole"
+          read pass
+          export SSHPASS="$pass"
           echo $SSHPASS
           echo "Host *" > .ssh/config
           echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
           echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
           cat .ssh/config
-         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj & exit"
+         sshpass -e ssh -T -p 7373 -n build@id.radioimzers.com "/root/8888autodj restart & exit"
+         exit
 ;;
 "Stop / Exit")
    killall ffmpeg
