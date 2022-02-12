@@ -21,6 +21,36 @@ rm -rf wget.log
 #mv *.opus $DIR
 #mv *.m4a $DIR
 
+update(){
+   clear
+   ping -c 4 -s 560 1.1.1.1
+   if [ "$?" != "0" ];then
+		  echo "-------------------"
+          echo "Ping failed"
+          echo "Cannot Update"
+          echo "-------------------"
+   else
+          clear
+          #wget $URLUPDATE -O lagu
+          #cp lagu $PREFIX/bin/lagu
+          #rm lagu
+          wget $URLUPDATE -O $PREFIX/bin/lagu 
+          clear
+          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          pkg reinstall openssl -y
+          clear
+          echo "-------------------"
+          echo "Update selesai"
+          echo "-------------------"
+          echo "Youtube dl Version"
+          $YOUTUBE_DL --version
+          echo "-------------------"
+          echo "Ketik: lagu"
+          echo "-------------------"
+          exit
+    fi
+}
+
 command(){
 PS3='Pilih Nomer: '
 menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "Crop" "Crop+Custom" "Live" "Film" "Gambar" "Check" "Update" "Radio" "Stop / Exit")
@@ -758,33 +788,7 @@ case $fav in
       exit
 ;;
 "Update")
-   clear
-   ping -c 4 -s 560 1.1.1.1
-   if [ "$?" != "0" ];then
-		     echo "-------------------"
-          echo "Ping failed"
-          echo "Cannot Update"
-          echo "-------------------"
-   else
-          clear
-          #wget $URLUPDATE -O lagu
-          #cp lagu $PREFIX/bin/lagu
-          #rm lagu
-          wget $URLUPDATE -O $PREFIX/bin/lagu 
-          clear
-          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          pkg reinstall openssl -y
-          clear
-          echo "-------------------"
-          echo "Update selesai"
-          echo "-------------------"
-          echo "Youtube dl Version"
-          $YOUTUBE_DL --version
-          echo "-------------------"
-          echo "Ketik: lagu"
-          echo "-------------------"
-          exit
-    fi
+   update
 ;;
 "Radio")
           clear
@@ -1045,7 +1049,7 @@ case $1 in
           cat $PREFIX/etc/apt/sources.list.d/root.list
           echo "Science"
           cat $PREFIX/etc/apt/sources.list.d/science.list
-          echo "unstable.list"
+          echo "Unstable"
           cat $PREFIX/etc/apt/sources.list.d/unstable.list
           echo "x11"
           cat $PREFIX/etc/apt/sources.list.d/x11.list
@@ -1082,6 +1086,9 @@ case $1 in
           # termux-reload-settings
           echo "extra-keys = [ \ ['ESC','|','/','HOME','UP','END','PGUP','DEL'], \ ['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN','BKSP'] \ ]" >> ~/.termux/termux.properties
           termux-reload-settings 
+;;
+"update")
+     update
 ;;
 *)
         command
