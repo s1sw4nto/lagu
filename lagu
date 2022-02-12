@@ -799,20 +799,7 @@ case $fav in
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
-          if [ -d "$RADIO" ]; then
-                  echo "File exist'
-           else
-                  echo "Host *" > .ssh/config
-                  echo "HostkeyAlgorithms +ssh-dss" >> .ssh/config
-                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> .ssh/config
-                  #cat .ssh/config
-                  read host
-                  echo "$host" > $RADIO
-                  read port
-                  echo "$port" >> $RADIO
-                  read paswd
-                  echo "$paswd" >> $RADIO
-          fi
+          
           read -p "Stop.Radio ? y/n: " yn
           echo "-----------------"
           case $yn in
