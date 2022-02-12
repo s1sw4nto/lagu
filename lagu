@@ -17,6 +17,8 @@ RADIO=$HOME/radio.txt
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.100 Safari/537.36"
 #echo $HOME
 rm -rf wget.log
+rm -rf cookies
+rm -rf *.aria2
 
 #mv *.opus $DIR
 #mv *.m4a $DIR
@@ -540,7 +542,6 @@ case $fav in
 ;;
 "PlayBack")
       clear
-      rm -rf *.aria2
       COOKIES="cookies"
       echo "-----------------"
       echo "PlayBack Best Code"
