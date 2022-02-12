@@ -584,7 +584,7 @@ case $fav in
      ;;
      [Mm]* ) 
      COOKIES="cookies"
-     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=44100]/best" -i -g "$url" --cookies=${COOKIES})
+     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
       echo "$audio"
       echo "-----------------"
       judul
