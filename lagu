@@ -797,7 +797,7 @@ case $fav in
           port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           
-          echo."$RADIO"
+          echo "$RADIO"
           echo "-----------------"
           export SSHPASS="$paswd"
           #echo $SSHPASS
