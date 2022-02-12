@@ -823,7 +823,8 @@ case $fav in
                   read paswd
                   echo "$paswd" >> $RADIO
                   export SSHPASS="$paswd"
-                  ssh -T -p $port -n build@$host & exit
+                  ssh -T -p $port -n build@$host 
+                  exit
           fi
           read -p "Stop.Radio ? y/n/c: " yn
           export SSHPASS="$paswd"
