@@ -272,6 +272,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -330,6 +332,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -392,6 +396,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -452,6 +458,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -659,6 +667,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -709,6 +719,8 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -851,7 +863,7 @@ case $fav in
      rm -rf .jpg
      exit
 ;;
-"Check")
+"check")
       clear
       echo "-----------------"
       echo "Check Link URL Selain Youtube Jika Bisa"
@@ -1186,4 +1198,3 @@ case $1 in
         command
 ;;
 esac
-
