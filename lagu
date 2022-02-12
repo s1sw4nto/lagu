@@ -805,10 +805,12 @@ case $fav in
                   echo "File exist"
            else
                   echo "File not exist"
-                  echo 'Host *' > $HOME.ssh/config
-                  echo 'HostkeyAlgorithms +ssh-dss' >> $HOME.ssh/config
-                  echo 'PubkeyAcceptedKeyTypes +ssh-dss' >> $HOME.ssh/config
+                  cd .ssh
+                  echo "Host *" > config
+                  echo "HostkeyAlgorithms +ssh-dss" >> config
+                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
                   #cat .ssh/config
+                  cd
                   read host
                   echo "$host" > $RADIO
                   read port
