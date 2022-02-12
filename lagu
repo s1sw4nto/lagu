@@ -16,8 +16,11 @@ RADIO=$HOME/radio.txt
 #youtube-dl --dump-user-agent
 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.100 Safari/537.36"
 #echo $HOME
+
+COOKIES="cookies"
 rm -rf wget.log
 rm -rf *.aria2
+rm -rf *.webm
 
 #mv *.opus $DIR
 #mv *.m4a $DIR
@@ -76,7 +79,7 @@ case $fav in
       echo "-----------------"
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
-      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url")
+      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
       echo "$audio"
       echo "-----------------"
       judul
@@ -86,11 +89,12 @@ case $fav in
       echo "-----------------"
       echo "Poses Ini butuh waktu lama, sesuai durasi"
       echo "-----------------"
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" "$url" -o "lagu.mp3"
       #lame --preset standard lagu.mp3 lagu2.mp3
       #rm -rf lagu.mp3
       #mv lagu2.mp3 "$title".mp3
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$audio" -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
+      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" {}.mp3 && rm {}"
       clear
       lagu=$(find -type f -name "*.mp3")
@@ -541,7 +545,6 @@ case $fav in
 ;;
 "PlayBack")
       clear
-      COOKIES="cookies"
       echo "-----------------"
       echo "PlayBack Best Code"
       echo "-----------------"
