@@ -806,6 +806,7 @@ case $fav in
            else
                   echo "File not exist"
                   cd .ssh
+                  ls -lh
                   echo "Host *" > config
                   echo "HostkeyAlgorithms +ssh-dss" >> config
                   echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
