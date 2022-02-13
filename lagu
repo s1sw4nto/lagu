@@ -105,7 +105,7 @@ case $fav in
       echo "Tunggu sampai selesai"
       echo "-----------------"
       #--external-downloader aria2c --external-downloader-args "-x 4 -s 16 -k 1M
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -i $(aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies=$COOKIES -U  $user_agent $audio) -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
+      ffmpeg -y -re -loglevel warning -hide_banner -stats -i "$(aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies=$COOKIES -U  $user_agent $audio)" -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
       #ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" {}.mp3 && rm {}"
       #clear
