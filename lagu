@@ -1099,8 +1099,10 @@ case $1 in
    clear
    echo "-----------------"
    echo "MP3 dan MP4 tersimpan di sdcard/TermuxFiles"
+   sleep 3
    echo "-----------------"
    echo "Ijinkan penyimpanan file di filemanager"
+   echo "Tekan ijinkan atau allow"
    echo "-----------------"
    sleep 8
    termux-setup-storage
@@ -1108,7 +1110,8 @@ case $1 in
    ping -c 4 -s 560 1.1.1.1
    if [ "$?" != "0" ];then
 		     echo "-------------------"
-          echo "Ping failed"
+             echo "Ping failed"
+             echo "Check Internet kamu"
    else
           clear
           echo "-------------------"
