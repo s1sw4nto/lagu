@@ -973,7 +973,7 @@ case $fav in
           fi
           echo "Kalau mau siaran ketik: Ya"
           echo "Berhenti siaran ketik: Ok"
-          echo "Menghapus setingan ketik: Del
+          echo "Menghapus setingan ketik: Del"
           read -p "Pilih: " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
