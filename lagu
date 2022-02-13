@@ -48,14 +48,14 @@ update(){
           #rm lagu
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
-          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          pkg reinstall openssl -y
+          #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          #pkg reinstall openssl -y
           clear
           echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
           echo "Youtube dl Version"
-          $YOUTUBE_DL --version
+          #$YOUTUBE_DL --version
           echo "-------------------"
           echo "Ketik: lagu"
           echo "-------------------"
