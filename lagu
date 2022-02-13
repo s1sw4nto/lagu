@@ -983,12 +983,12 @@ case $fav in
           case $yn in
                      [Yy]* ) echo "Sekarang anda bisa siaran"
                                  echo "-----------------"
-                                 sleep 2
                                  sshpass -e ssh -T -p $port -n build@$host './radio stop'
                      ;;
                      [Oo]* ) echo "Sudah capek? besok siaran lagi ya"
+                                  echo "Setelah ini Exit Termux dari notifikasi"
                                   echo "-----------------"
-                                  sleep 2
+                                  sleep 3
                                   sshpass -e ssh -T -p $port -n build@$host './radio start'
                      ;;
                      [Dd]* ) echo "Clear settings"
