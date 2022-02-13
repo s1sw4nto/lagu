@@ -943,9 +943,11 @@ case $fav in
           paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
           echo "-----------------"
           if [[ -f "$RADIO" ]]; then
-                  echo "File exist"
+                  echo "Setingan sudah ada"
+                  echo "-----------------"
            else
-                  echo "File not exist"
+                  echo "Setingan belum ada"
+                  echo "Masukan: Host , Port , Password"
                   cd $HOME/.ssh
                   echo "Host *" > config
                   echo "HostkeyAlgorithms +ssh-dss" >> config
