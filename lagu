@@ -1113,6 +1113,7 @@ case $1 in
              echo "Ping failed"
              echo "Check Internet kamu"
    else
+          echo "deb https://packages.termux.org/apt/termux-main stable main" > $PREFIX/etc/apt/sources.list
           clear
           echo "-------------------"
           echo "Install paket, ini butuh waktu lama.."
@@ -1222,3 +1223,4 @@ case $1 in
         command
 ;;
 esac
+
