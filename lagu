@@ -1152,10 +1152,15 @@ case $1 in
           clear
           pkg update -y
           clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cd $PREFIX/etc/apt/sources.list.d
+          ls
           echo "-------------------"
           echo "Instalasi selesai"
           echo "-------------------"
-          sleep 4
+          sleep 10
           command
 	 fi
 ;;
@@ -1178,22 +1183,22 @@ case $1 in
           cat $PREFIX/etc/apt/sources.list.d/x11.list
 ;;
 "repo-update")
-           rm -rf $PREFIX/etc/apt/sources.list.d/*.list
+          rm -rf $PREFIX/etc/apt/sources.list.d/*.list
           clear
           echo "Main"
-          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          echo "deb https://packages.termux.org/apt/termux-main stable main" > $PREFIX/etc/apt/sources.list
           echo "Dpkg"
           echo "# The main termux repository:" > $PREFIX/etc/apt/sources.list.dpkg-dist
           echo "deb https://termux.org/packages/ stable main" >> $PREFIX/etc/apt/sources.list.dpkg-dist
           echo "Game"
           echo "deb https://packages.termux.org/apt/termux-games games stable" > $PREFIX/etc/apt/sources.list.d/game.list
           echo "Root"
-          echo "#deb https://dl.bintray.com/grimler/termux-root-packages-24 root stable     #deb https://termux.mentality.rip/termux-root-packages-24 root stable" > $PREFIX/etc/apt/sources.list.d/root.list
+          echo "deb https://packages.termux.org/apt/termux-root root stable" > $PREFIX/etc/apt/sources.list.d/root.list
           echo "Science"
           echo "deb https://packages.termux.org/apt/termux-science science stable" > $PREFIX/etc/apt/sources.list.d/science.list
-          echo "unstable.list"
+          echo "Unstable.list"
           echo "deb https://packages.termux.org/apt/termux-unstable unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
-          echo "x11.list"
+          echo "X11"
           echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list
           pkg clean
           pkg autoclean
@@ -1217,4 +1222,3 @@ case $1 in
         command
 ;;
 esac
-
