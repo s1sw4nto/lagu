@@ -1125,6 +1125,8 @@ case $1 in
           clear
           pkg install x11-repo -y
           clear
+          pkg clean -y
+          pkg autoclean - y
           pkg update -y
           clear
           mkdir $HOME/storage/shared/TermuxFiles
