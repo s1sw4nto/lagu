@@ -1104,8 +1104,9 @@ case $1 in
    echo "Ijinkan penyimpanan file di filemanager"
    echo "Tekan ijinkan atau allow"
    echo "-----------------"
-   sleep 8
+   sleep 6
    termux-setup-storage
+   sleep 4
    clear
    ping -c 4 -s 560 1.1.1.1
    if [ "$?" != "0" ];then
@@ -1223,4 +1224,3 @@ case $1 in
         command
 ;;
 esac
-
