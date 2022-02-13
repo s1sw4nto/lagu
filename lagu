@@ -95,13 +95,15 @@ case $fav in
       echo "-----------------"
       echo "$title.mp3"
       echo "-----------------"
-      echo "Poses Ini butuh waktu lama, sesuai durasi"
-      echo "-----------------"
       aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" "$url" -o "lagu.mp3"
       #lame --preset standard lagu.mp3 lagu2.mp3
       #rm -rf lagu.mp3
       #mv lagu2.mp3 "$title".mp3
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
       ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" {}.mp3 && rm {}"
       clear
@@ -116,6 +118,7 @@ case $fav in
       echo "-----------------"
       mv *.mp3 $DIR
       rm -rf *_-_*
+      rm -rf *.webm
       exit
 ;;
 "Mp3 Custom")
@@ -149,9 +152,11 @@ case $fav in
       echo "-----------------"
       echo "$title.mp3"
       echo "-----------------"
-      echo "Poses Ini butuh waktu lama, sesuai durasi"
-      echo "-----------------"
       aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
       ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -ss 00:00:"$start" -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" {}.mp3 && rm {}"
       clear
@@ -166,6 +171,7 @@ case $fav in
       echo "-----------------"
       mv *.mp3 $DIR
       rm -rf *_-_*
+      rm -rf *.webm
       exit
 ;;
 "Mp3 Start End")
@@ -203,9 +209,11 @@ case $fav in
       echo "-----------------"
       echo "$title.mp3"
       echo "-----------------"
-      echo "Poses Ini butuh waktu lama, sesuai durasi"
-      echo "-----------------"
       aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
       ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -ss 00:00:"$start" -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" {}.mp3 && rm {}"
       clear
@@ -220,6 +228,7 @@ case $fav in
       echo "-----------------"
       mv *.mp3 $DIR
       rm -rf *_-_*
+      rm -rf *.webm
       exit
 ;;
 "Video Normal")
@@ -255,10 +264,12 @@ case $fav in
     echo "-----------------"
     echo "$title.mp4"
     echo "-----------------"
-    echo "Poses Ini butuh waktu lama, sesuai durasi"
-    echo "-----------------"
     aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
     aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
     ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
 
     #echo "$filename.mp4"
@@ -308,7 +319,7 @@ case $fav in
       echo "-----------------"
       read res
       echo "-----------------"
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
     video=$(cat link.txt | awk -F " " 'NR == 1{print}')
     audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
     echo "Proses Download dan Convert Video MP4"
@@ -324,9 +335,13 @@ case $fav in
     echo "-----------------"
     echo "$title.mp4"
     echo "-----------------"
-    echo "Poses Ini butuh waktu lama, sesuai durasi"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -user_agent "$user_agent" -i "$video" -ss 00:"$start" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -372,7 +387,7 @@ case $fav in
       echo "-----------------"
       read res
       echo "-----------------"
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
     video=$(cat link.txt | awk -F " " 'NR == 1{print}')
     audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
     echo "Proses Download dan Convert Video MP4"
@@ -388,9 +403,13 @@ case $fav in
     echo "-----------------"
     echo "$title.mp4"
     echo "-----------------"
-    echo "Poses Ini butuh waktu lama, sesuai durasi"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -user_agent "$user_agent" -i "$video" -ss 00:"$start" -to 00:"$end" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -435,7 +454,7 @@ case $fav in
       echo "-----------------"
       read audio
       echo "-----------------"
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$video+$audio" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$video+$audio" -i -g $url --cookies=${COOKIES} > link.txt
     video=$(cat link.txt | awk -F " " 'NR == 1{print}')
     audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
     echo "Proses Download dan Convert Video MP4"
@@ -451,9 +470,13 @@ case $fav in
     echo "-----------------"
     echo "$title.mp4"
     echo "-----------------"
-    echo "Poses Ini butuh waktu lama, sesuai durasi"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -user_agent "$user_agent" -i "$audio" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -496,7 +519,7 @@ case $fav in
       echo "-----------------"
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
-      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url)
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url --cookies=${COOKIES})
       echo "$video"
       echo "-----------------"
       judul
@@ -504,7 +527,12 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -517,6 +545,7 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -537,7 +566,7 @@ case $fav in
       echo "-----------------"
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
-      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url)
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url --cookies=${COOKIES})
       echo "$video"
       echo "-----------------"
       judul
@@ -545,7 +574,12 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -558,6 +592,7 @@ case $fav in
      echo "-----------------"
      mv *.mp4 $DIR
      rm -rf .mp4
+     rm -rf *.webm
      rm -rf *.part
      rm -rf *.ytdl
      rm -rf *_-_*
@@ -588,7 +623,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      cat $COOKIES
+      #cat $COOKIES
       aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp4 "$video"
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -616,7 +651,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp3"
       echo "-----------------"
-      cat $COOKIES
+      #cat $COOKIES
       aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
       clear
       lagu=$(find -type f -name "*.mp3")
