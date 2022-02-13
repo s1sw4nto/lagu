@@ -28,6 +28,7 @@ COOKIES="cookies"
 rm -rf wget.log
 rm -rf *.aria2
 rm -rf *.webm
+rm -rf *.mp3
 
 #mv *.opus $DIR
 #mv *.m4a $DIR
