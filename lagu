@@ -1,4 +1,11 @@
 #!/bin/bash
+#backup
+#termux-setup-storage
+#tar -zcf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr
+#restore
+#termux-setup-storage
+#tar -zxf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions
+#Now close Termux with the "exit" button from notification and open it again.
 # chmod a+x lagu
 # which youtube-dl
 # which ffmpeg
@@ -1107,7 +1114,11 @@ case $1 in
           echo "-------------------"
           echo "Install paket, ini butuh waktu lama.."
           echo "-------------------"
-          sleep 5
+          sleep 4
+          clear
+          pkg install root-repo -y
+          clear
+          pkg install x11-repo -y
           clear
           pkg update -y
           clear
@@ -1131,8 +1142,13 @@ case $1 in
           cp lagu $PREFIX/bin/lagu
           chmod a+rx $PREFIX/bin/lagu
           rm lagu
-          #rm wget-log
-          #rm wget-log.*
+          rm wget-log
+          rm wget-log.*
+          pkg clean -y
+          pkg autoclean - y
+          clear
+          pkg update -y
+          clear
           echo "-------------------"
           echo "Instalasi selesai"
           echo "-------------------"
@@ -1198,3 +1214,4 @@ case $1 in
         command
 ;;
 esac
+
