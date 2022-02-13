@@ -607,8 +607,8 @@ case $fav in
       echo "-----------------"
       read url
       echo "-----------------"
-      echo "Ketik: V , untuk video"
-      echo "Ketik: M , untuk mp3"
+      echo "Disimpan Video ketik: V"
+      echo "Disimpam Mp3 ketik: M"
           read -p "Pilih: " yn
           echo "-----------------"
           case $yn in
@@ -685,7 +685,7 @@ case $fav in
       echo "-----------------"
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
       video=$(cat link.txt | awk -F " " 'NR == 1{print}')
       audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
       echo "$video"
@@ -697,7 +697,13 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-     ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -user_agent "$user_agent" -i "$audio" -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+     ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -731,7 +737,7 @@ case $fav in
       echo "-----------------"
       read start
       echo "-----------------"
-      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url > link.txt
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
     video=$(cat link.txt | awk -F " " 'NR == 1{print}')
     audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
     echo "Proses Download dan Convert Video MP4"
@@ -747,9 +753,13 @@ case $fav in
     echo "-----------------"
     echo "$title.mp4"
     echo "-----------------"
-    echo "Poses Ini butuh waktu lama, sesuai durasi"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -user_agent "$user_agent" -i "$video" -ss 00:"$start" -user_agent "$user_agent" -i "$audio" -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -961,9 +971,9 @@ case $fav in
                   ssh -T -p $port -n build@$host 
                   exit
           fi
-          echo "Ketik: Ya , kalau mau siaran"
-          echo "Ketik: Ok , kalau selesai siaran"
-          echo "Ketik: Del , menghapus setingan"
+          echo "Kalau mau siaran ketik: Ya"
+          echo "Berhenti siaran ketik: Ok"
+          echo "Menghapus setingan ketik: Del
           read -p "Pilih: " yn
           export SSHPASS="$paswd"
           #echo $SSHPASS
@@ -985,7 +995,7 @@ case $fav in
                                   rm -rf known_hosts
                                   cd $HOME
                      ;;
-                     * ) echo "Please answer yes or no.";;
+                     * ) echo "Please answer Ya or Ok";;
            esac
            exit
 ;;
