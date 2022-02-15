@@ -1207,11 +1207,14 @@ case $1 in
           cd $PREFIX/etc/apt
           ls
           echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          cat sources.list.dpkg-old
+          echo "-------------------"
           cd $PREFIX/etc/apt/sources.list.d
           ls
           echo "-------------------"
           echo "Instalasi selesai"
-          echo "-------------------"
           sleep 10
           command
 	 fi
