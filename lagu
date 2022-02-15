@@ -1241,7 +1241,7 @@ case $1 in
           rm -rf $PREFIX/etc/apt/sources.list.d/*.list
           clear
           echo "Main"
-          echo "deb https://packages.termux.org/apt/termux-main stable main" > $PREFIX/etc/apt/sources.list
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
           echo "Dpkg"
           echo "# The main termux repository:" > $PREFIX/etc/apt/sources.list.dpkg-dist
           echo "deb https://termux.org/packages/ stable main" >> $PREFIX/etc/apt/sources.list.dpkg-dist
