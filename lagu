@@ -51,6 +51,18 @@ update(){
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           pkg reinstall openssl -y
           clear
+          clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          pkg clean -y
+          pkg autoclean -y
+          pkg update -y
+          echo "-------------------"
+          cat sources.list
           echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
@@ -1255,8 +1267,8 @@ case $1 in
           echo "deb https://packages.termux.org/apt/termux-unstable unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
           echo "X11"
           echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list
-          pkg clean
-          pkg autoclean
+          pkg clean -y
+          pkg autoclean -y
           pkg update -y
           cd $PREFIX/etc/apt/sources.list.d
           ls
