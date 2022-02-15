@@ -1162,7 +1162,7 @@ case $1 in
    sleep 3
    echo "-----------------"
    echo "Ijinkan penyimpanan file di filemanager"
-   echo "Tekan ijinkan atau allow"
+   echo "Tekan ijinkan atau allow atau y"
    echo "-----------------"
    sleep 6
    termux-setup-storage
