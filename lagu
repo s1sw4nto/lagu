@@ -1227,8 +1227,10 @@ case $1 in
           ls
           echo "-------------------"
           echo "Instalasi selesai"
-          sleep 10
-          command
+          echo "-------------------"
+          echo "Ketik: lagu"
+          echo "-------------------"
+          exit
 	 fi
 ;;
 "repo")
