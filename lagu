@@ -46,6 +46,7 @@ update(){
           #wget $URLUPDATE -O lagu
           #cp lagu $PREFIX/bin/lagu
           #rm lagu
+          youtube-dl --rm-cache-dir
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
@@ -1203,6 +1204,9 @@ case $1 in
           clear
           pkg install aria2 -y
           clear
+          #pkg install proot -y
+          #pkg install tsudo -y
+          #pkg install tsu -y
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
           clear
           chmod a+rx $PREFIX/bin/youtube-dl
