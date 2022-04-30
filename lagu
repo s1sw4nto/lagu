@@ -800,6 +800,7 @@ case $fav in
       echo "Enter Youtube URL:"
       echo "-----------------"
       read url
+      crop
       echo "-----------------"
       echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
       echo "-----------------"
