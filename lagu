@@ -1219,7 +1219,7 @@ crop(){
       echo "Crop Video: iw-220:ih-150"
       echo "Crop Video: iw-350:ih-200"
       echo "Crop Video: iw-500:ih"
-      echo "Crop Video 480p: iw-580:ih"
+      echo "Crop Video 480p: iw-590:ih"
       echo "Crop Video: iw-800:ih"
       echo "Crop Video: iw-876:ih"
       echo "-----------------"
