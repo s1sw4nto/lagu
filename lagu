@@ -50,8 +50,6 @@ update(){
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          pkg reinstall openssl -y
-          clear
           clear
           cd $PREFIX/etc/apt
           ls
@@ -62,6 +60,8 @@ update(){
           pkg clean -y
           pkg autoclean -y
           pkg update -y
+          pkg reinstall openssl -y
+          clear
           echo "-------------------"
           cat sources.list
           echo "-------------------"
