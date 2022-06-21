@@ -1222,6 +1222,12 @@ crop(){
       echo "Crop Video 480p: iw-585:ih"
       echo "Crop Video: iw-800:ih"
       echo "Crop Video: iw-876:ih"
+      echo "Crop Left: iw/2:ih:0:0"
+      echo "Crop Left: (iw/2)-100:ih:0:0"
+      echo "Crop Left: 250:ih:0:0"
+      echo "Crop Right: 250:ih:iw-250:0"
+      echo "Crop Left: 250:ih:20:0"
+      echo "Crop Right: 400:ih:iw-250:0"
       echo "-----------------"
       read crop
 }
