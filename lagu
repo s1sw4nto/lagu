@@ -67,8 +67,11 @@ update(){
           echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
-          echo "Youtube dl Version"
-          $YOUTUBE_DL --version
+          echo "Checking Youtube dl Version"
+          echo "Please wait"
+          echo "-------------------"
+          yt=$($YOUTUBE_DL --version)
+          echo "Youtube dl Version: $yt"
           echo "-------------------"
           echo "Ketik: lagu"
           echo "-------------------"
