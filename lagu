@@ -1232,7 +1232,7 @@ crop(){
       echo "Crop Kiri Potrait: 300:ih:0:0"
       echo "Crop Kanan Potrait: 300:ih:iw-300:0"
       echo "Crop Kiri Potrait +50: 300:ih:100:0"
-      echo "Crop Kanan Potrait -50: 300:ih:iw-340:0"
+      echo "Crop Kanan Potrait -50: 300:ih:iw-400:0"
       echo "-----------------"
       read crop
 }
