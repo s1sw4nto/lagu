@@ -81,7 +81,7 @@ update(){
 
 command(){
 PS3='Pilih Nomer: '
-menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "PlayBack" "Crop" "Crop+Custom" "Crop+Custom Start End" "Live" "Film" "Gambar" "Check" "Update" "Radio" "Stop / Exit")
+menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "PlayBack" "Crop" "Crop+Custom" "Crop+Custom Start End" "Live" "Film" "Gambar" "Check" "Reff" "Update" "Radio" "Stop / Exit")
 echo "-----------------"
 echo "Pilih salah satu:"
 echo "-----------------"
@@ -1001,7 +1001,7 @@ case $fav in
      rm -rf .jpg
      exit
 ;;
-"check")
+"Check")
       clear
       echo "-----------------"
       echo "Check Link URL Selain Youtube Jika Bisa"
@@ -1017,6 +1017,57 @@ case $fav in
       #echo "-----------------"
       $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -F $url
       exit
+;;
+"Reff")
+      clear
+      echo "-----------------"
+      echo "Convert Video Best Code"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Check URL With Referer"
+      read ref
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      echo "Codec:"
+      ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url" 
+      echo "-----------------"
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "best" -i -g $url --cookies=${COOKIES})
+      echo "$video"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" --user-agent="$user_agent" --referer="$ref" -o "$title".webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di sdcard/TermuxFiles"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
 ;;
 "Update")
    update
