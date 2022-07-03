@@ -1028,7 +1028,9 @@ case $fav in
       read url
       echo "-----------------"
       echo "Check URL With Referer"
-      read ref
+      ref
+      echo "-----------------"
+      cat $HOME/referer.txt
       echo "-----------------"
       echo "Proses Download dan Convert Video MP4"
       echo "-----------------"
@@ -1247,6 +1249,10 @@ ref(){
       link=$(grep -n "cloudvideo" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
       if [[ $link == "cloudvideo" ]] ; then
       echo "https://cloudvideo.tv/" > $HOME/referer.txt
+      else
+      link=$(grep -n "tiktok" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "cloudvideo" ]] ; then
+      echo "https://www.tiktok.com/" > $HOME/referer.txt
 
       else
       echo "-----------------"
