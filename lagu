@@ -1250,10 +1250,10 @@ ref(){
       if [[ $link == "cloudvideo" ]] ; then
       echo "https://cloudvideo.tv/" > $HOME/referer.txt
       else
-      link=$(grep -n "tiktok" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
-      if [[ $link == "tiktok" ]] ; then
+      link=$(grep -n "tiktokcdn" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "tiktokcdn" ]] ; then
       echo "https://www.tiktok.com/" > $HOME/referer.txt
-
+      
       else
       echo "-----------------"
       echo "Enter Referer"
