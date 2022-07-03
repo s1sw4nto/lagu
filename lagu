@@ -1054,7 +1054,7 @@ case $fav in
       echo "Proses Convert FFMPEG"
       echo "Tunggu sampai selesai"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i tiktok.webm -threads 6 -filter_complex "crop=iw:ih-50" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" tiktok.mp4
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i tiktok.webm -threads 6 -filter_complex "crop=iw:ih-150" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" tiktok.mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
