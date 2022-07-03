@@ -1039,7 +1039,7 @@ case $fav in
       echo "Ini butuh waktu lama, tergantung koneksi internet"
       echo "-----------------"
       echo "Codec:"
-      ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url" 
+      #ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url" 
       echo "-----------------"
       video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "best" -i -g $url})
       echo "$video"
