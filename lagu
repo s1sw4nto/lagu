@@ -1011,7 +1011,8 @@ case $fav in
       read url
       ref
       echo "-----------------"
-      cat $HOME/referer.txt
+      ref=$(cat $HOME/referer.txt)
+      echo $ref
       echo "-----------------"
       #ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url"
       #echo "-----------------"
@@ -1030,7 +1031,8 @@ case $fav in
       echo "Check URL With Referer"
       ref
       echo "-----------------"
-      cat $HOME/referer.txt
+      ref=$(cat $HOME/referer.txt)
+      echo $ref
       echo "-----------------"
       echo "Proses Download dan Convert Video MP4"
       echo "-----------------"
