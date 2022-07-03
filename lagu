@@ -1028,12 +1028,12 @@ case $fav in
       echo "-----------------"
       read url
       echo "-----------------"
-      crop
       echo "Check URL With Referer"
       ref
       echo "-----------------"
       ref=$(cat $HOME/referer.txt)
       echo $ref
+      crop
       echo "-----------------"
       echo "Proses Download dan Convert Video MP4"
       echo "-----------------"
