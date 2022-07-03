@@ -1041,7 +1041,7 @@ case $fav in
       echo "Codec:"
       ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url" 
       echo "-----------------"
-      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "best" -i -g $url --cookies=${COOKIES})
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "best" -i -g $url})
       echo "$video"
       echo "-----------------"
       judul
@@ -1049,7 +1049,7 @@ case $fav in
       echo "-----------------"
       echo "$title.mp4"
       echo "-----------------"
-      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" --user-agent="$user_agent" --referer="$ref" -o "$title".webm "$video"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --user-agent="$user_agent" --referer="$ref" -o "$title".webm "$video"
       echo "-----------------"
       echo "Proses Convert FFMPEG"
       echo "Tunggu sampai selesai"
