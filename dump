@@ -539,7 +539,7 @@ case $1 in
           echo "-------------------"
           echo "Install paket, ini butuh waktu lama.."
           echo "-------------------"
-          sleep 4
+          sleep 2
           #clear
           pkg install root-repo -y
           #clear
@@ -570,11 +570,6 @@ case $1 in
           rm $FILENAME
           rm wget-log
           rm wget-log.*
-          pkg clean -y
-          pkg autoclean - y
-          #clear
-          pkg update -y
-          #clear
           cd $PREFIX/etc/apt
           ls
           echo "-------------------"
