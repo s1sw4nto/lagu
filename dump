@@ -483,7 +483,7 @@ update(){
           clear
           wget https://github.com/s1sw4nto/lagu/raw/main/wordlist-top4800-probable.txt -O $DIR/wordlist-top4800-probable.txt
           clear
-		  wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
+          wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
           clear
           cd $PREFIX/etc/apt
           ls
@@ -500,7 +500,7 @@ update(){
           echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
-          echo "Ketik: $$FILENAME"
+          echo "Ketik: $FILENAME"
           echo "-------------------"
           exit
     fi
@@ -534,7 +534,7 @@ case $1 in
           clear
           wget https://github.com/s1sw4nto/lagu/raw/main/wordlist-top4800-probable.txt -O $DIR/wordlist-top4800-probable.txt
           clear
-		  wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
+          wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
           clear
           echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
           clear
