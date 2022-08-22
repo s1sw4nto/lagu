@@ -189,7 +189,7 @@ deauth(){
 }
 command(){
 PS3='Choose: '
-foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE")
+foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Update")
 select fav in "${foods[@]}"; do
     case $fav in
         "First Start Only")
@@ -460,6 +460,9 @@ select fav in "${foods[@]}"; do
 	          echo "-------------------"
              #besside-ng $WLAN -b $BSSID -с $CH -p 10 -v
              besside-ng $IFACE -b $BSSID -c $CH -v
+        ;;
+        "Update")
+           update
         ;;
         *) echo "invalid option $REPLY";;
     esac
