@@ -502,7 +502,7 @@ update(){
 }
 case $1 in
 "install")
-   clear
+  # clear
    echo "-----------------"
    echo "File tersimpan di sdcard/TermuxFiles"
    sleep 3
@@ -513,7 +513,7 @@ case $1 in
    sleep 6
    termux-setup-storage
    sleep 4
-   clear
+  # clear
    ping -c 4 -s 560 1.1.1.1
    if [ "$?" != "0" ];then
 		     echo "-------------------"
