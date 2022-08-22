@@ -5,9 +5,9 @@ hari=`date '+'%Y-%m-%d''`
 FILENAME=dump
 CRACK="$HOME"
 DIR=$CRACK/dump
-HASH=$CRACK/dump/hs
-TMP=$CRACK/dump/tmp
-BESSIDE=$CRACK/dump/besside
+HASH=$DIR/hs
+TMP=$DIR/tmp
+BESSIDE=$DIR/besside
 #KEY=$HASH/wifipass-$waktu.txt
 KEY=$HASH/wifipass.txt
 PASS=$HASH/wifipassfound.txt
@@ -21,6 +21,7 @@ WLAN=`cat $DIR/wlan.txt`
 IFACE=`cat $DIR/ifmon.txt`
 #IFACE=mon0
 URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/$FILENAME"
+#pkg update -y && pkg install wget -y && wget https://id.radioimzers.com:81/dump -O dump && chmod a+rx dump && ./dump install
 clear
 echo "ESSID:" $ESSID
 echo "BSSID:" $BSSID
