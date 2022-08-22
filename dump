@@ -587,13 +587,9 @@ case $1 in
           cd $PREFIX/etc/apt/sources.list.d
           ls
           echo "-------------------"
-		  cd ..
-		  ls
-		  sleep 4
-		  echo "-------------------"
           echo "Setting Konfigurasi:"
-		  echo "-------------------"
-		  echo essid > $DIR/essid.txt
+	  echo "-------------------"
+	  echo essid > $DIR/essid.txt
           echo bssid > $DIR/bssid.txt
           echo wbssid > $DIR/wbssid.txt
           echo 1 > $DIR/ch.txt
@@ -608,22 +604,21 @@ case $1 in
           read wlan
           echo $wlan > $DIR/wlan.txt
           WLAN=`cat $DIR/wlan.txt`
-		  sleep 3
 		  echo "-------------------"
-            echo "airmon-ng start" $WLAN
 			echo "Pastikan wifi mati, jika tidak HP akan hank"
 			echo "Ketik y jika sudah mati, dan n jika belum"
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
                      [Yy]* ) echo "Wifi sudah mati"
+                                  echo "airmon-ng start" $WLAN
                                   airmon-ng start $WLAN
-		                          echo "-------------------"
+		                  echo "-------------------"
                                   echo "Enter IFMON Interface =>"
                                   echo "Example: wlanmon0 look interface above"
                                   read ifmon
                                   echo $ifmon > $DIR/ifmon.txt
-		                          IFACE=`cat $DIR/ifmon.txt`
+		                  IFACE=`cat $DIR/ifmon.txt`
                                   #echo "-------------------"
                                   #echo "Enter Wordlist location =>"
                                   #echo "Example: $DIR/wordlist-top4800-probable.txt"
