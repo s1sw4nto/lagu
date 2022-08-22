@@ -571,6 +571,7 @@ case $1 in
           rm wget-log
           rm wget-log.*
           cd $PREFIX/etc/apt
+          echo "-------------------"
           ls
           echo "-------------------"
           cat sources.list
@@ -578,6 +579,7 @@ case $1 in
           cat sources.list.dpkg-old
           echo "-------------------"
           cd $PREFIX/etc/apt/sources.list.d
+          echo "-------------------"
           ls
           echo "-------------------"
           echo "Setting Konfigurasi:"
