@@ -494,8 +494,6 @@ update(){
           pkg clean -y
           pkg autoclean -y
           pkg update -y
-          clear
-          echo "-------------------"
           cat sources.list
           echo "-------------------"
           echo "Update selesai"
