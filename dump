@@ -462,6 +462,7 @@ select fav in "${foods[@]}"; do
         ;;
         *) echo "invalid option $REPLY";;
     esac
+done
 	
 update(){
    clear
@@ -645,5 +646,3 @@ case $1 in
         echo "Command: $FILENAME install"
 ;;
 esac
-done
-
