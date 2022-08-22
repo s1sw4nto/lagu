@@ -187,6 +187,7 @@ deauth(){
              #sleep 2
              done
 }
+command(){
 PS3='Choose: '
 foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE")
 select fav in "${foods[@]}"; do
@@ -645,5 +646,6 @@ case $1 in
 ;;
 *)
         echo "Command: $FILENAME install"
+        command
 ;;
 esac
