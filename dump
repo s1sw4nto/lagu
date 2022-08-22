@@ -528,37 +528,37 @@ case $1 in
           echo "-------------------"
           echo "Created dump folder: $DIR"
           mkdir $DIR
-		  mkdir $TMP
-		  mkdir $HASH
-		  mkdir $BESSIDE
-          clear
+	  mkdir $TMP
+	  mkdir $HASH
+	  mkdir $BESSIDE
+          #clear
           wget https://github.com/s1sw4nto/lagu/raw/main/wordlist-top4800-probable.txt -O $DIR/wordlist-top4800-probable.txt
-          clear
+          #clear
           wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
-          clear
+          #clear
           echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
-          clear
+          #clear
           echo "-------------------"
           echo "Install paket, ini butuh waktu lama.."
           echo "-------------------"
           sleep 4
-          clear
+          #clear
           pkg install root-repo -y
-          clear
+          #clear
           pkg install x11-repo -y
-          clear
+          #clear
           pkg clean -y
           pkg autoclean - y
           pkg update -y
-          clear
+          #clear
           mkdir $HOME/storage/shared/TermuxFiles
           #clear
           #pkg install apt nano -y
-          clear
+          #clear
           pkg install aircrack-ng -y
-          clear
+          #clear
           pkg install macchanger -y
-	  clear
+	  #clear
           #pkg install python -y
           #clear
           #pkg install aria2 -y
@@ -566,7 +566,7 @@ case $1 in
           #pkg install proot -y
           #pkg install tsudo -y
           pkg install tsu -y
-          clear
+          #clear
           cp $FILENAME $PREFIX/bin/$FILENAME
           chmod a+rx $PREFIX/bin/$FILENAME
           rm $FILENAME
@@ -574,9 +574,9 @@ case $1 in
           rm wget-log.*
           pkg clean -y
           pkg autoclean - y
-          clear
+          #clear
           pkg update -y
-          clear
+          #clear
           cd $PREFIX/etc/apt
           ls
           echo "-------------------"
