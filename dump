@@ -212,7 +212,8 @@ select fav in "${foods[@]}"; do
             echo "airmon-ng start" $WLAN
             echo "Replace Mac adress" $WLAN
             echo "-------------------"
-			echo "WARNING! Matikan wifi jika masih on , jika tidak HP akan hank"
+			echo "WARNING! Matikan wifi jika masih on"
+                        echo "Jika tidak HP akan hank"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
@@ -620,7 +621,8 @@ case $1 in
           echo $wlan > $DIR/wlan.txt
           WLAN=`cat $DIR/wlan.txt`
 		  echo "-------------------"
-			echo "WARNING! Matikan wifi jika masih on , jika tidak HP akan hank"
+			echo "WARNING! Matikan wifi jika masih on"
+                        echo "Jika tidak HP akan hank"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
