@@ -220,10 +220,13 @@ select fav in "${foods[@]}"; do
 			read -p "Pilih: " yn
             case $yn in
                      [Yy]* ) echo "Wifi sudah mati"
-                                  airmon-ng start $WLAN > /dev/null 2>&1 &
+                                  #airmon-ng start $WLAN > /dev/null 2>&1 &
+                                  airmon-ng start $WLAN
                                   sleep 4
                                   ifconfig $IFACE down
+                                  sleep 2
                                   macchanger -r $IFACE
+                                  sleep 2
                                   ifconfig $IFACE up
                                   #macchanger -s mon0
                                   echo "-----------------"
@@ -239,7 +242,7 @@ select fav in "${foods[@]}"; do
 								  rm -rf *.*
 								  exit
                      ;;
-                     * ) echo "Please answer Ya or Ok";;
+                     * ) echo "Please answer Yes or No or Del";;
             esac
         ;;
         "Monitor Network")
@@ -650,7 +653,7 @@ case $1 in
                                   echo "-----------------"
 								  exit
                      ;;
-                     * ) echo "Please answer Ya or Ok";;
+                     * ) echo "Please answer Yes or No";;
             esac
 		  
           echo "Instalasi selesai"
