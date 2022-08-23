@@ -212,8 +212,9 @@ select fav in "${foods[@]}"; do
             echo "airmon-ng start" $WLAN
             echo "Replace Mac adress" $WLAN
             echo "-------------------"
-			echo "Pastikan wifi mati, jika tidak HP akan hank"
-			echo "Ketik y jika sudah mati, dan n jika belum"
+			echo "WARNING! Matikan wifi jika masih on , jika tidak HP akan hank"
+                        echo "-----------------"
+			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
@@ -619,8 +620,9 @@ case $1 in
           echo $wlan > $DIR/wlan.txt
           WLAN=`cat $DIR/wlan.txt`
 		  echo "-------------------"
-			echo "Pastikan wifi mati, jika tidak HP akan hank"
-			echo "Ketik y jika sudah mati, dan n jika belum"
+			echo "WARNING! Matikan wifi jika masih on , jika tidak HP akan hank"
+                        echo "-----------------"
+			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
