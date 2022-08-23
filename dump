@@ -562,9 +562,11 @@ case $1 in
           #pkg install apt nano -y
           #clear
           pkg install aircrack-ng -y
-          clear
+          #clear
+          sleep 5
           pkg install macchanger -y
-	  clear
+	  #clear
+          sleep 5
           #pkg install python -y
           #clear
           #pkg install aria2 -y
@@ -572,7 +574,8 @@ case $1 in
           #pkg install proot -y
           #pkg install tsudo -y
           pkg install tsu -y
-          clear
+          #clear
+          sleep 5
           cp $FILENAME $PREFIX/bin/$FILENAME
           chmod a+rx $PREFIX/bin/$FILENAME
           rm $FILENAME
