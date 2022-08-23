@@ -493,7 +493,7 @@ update(){
           echo "-------------------"
           cat sources.list
           echo "-------------------"
-          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          #echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
           pkg clean -y
           pkg autoclean -y
           pkg update -y
@@ -538,7 +538,7 @@ case $1 in
           clear
           wget https://github.com/s1sw4nto/lagu/raw/main/1900_2030.txt -O $DIR/1900_2030.txt
           clear
-          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          #echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
           #clear
           echo "-------------------"
           echo "Install paket, ini butuh waktu lama.."
