@@ -545,6 +545,7 @@ case $1 in
           echo "-------------------"
           sleep 2
           clear
+          #termux-change-repo
           pkg clean -y
           pkg autoclean - y
           pkg update -y
