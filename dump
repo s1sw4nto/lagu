@@ -545,6 +545,10 @@ case $1 in
           echo "-------------------"
           sleep 2
           clear
+          pkg clean -y
+          pkg autoclean - y
+          pkg update -y
+          clear
           pkg install root-repo -y
           clear
           pkg install x11-repo -y
