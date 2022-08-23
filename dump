@@ -562,6 +562,12 @@ case $1 in
           #pkg install apt nano -y
           #clear
           pkg install aircrack-ng -y
+          pkg install iw -y
+          pkg install wireless-tools -y
+          pkg install ethtool -y
+          pkg install mdk3 -y
+          #super user
+          pkg install tsu -y
           #clear
           sleep 5
           pkg install macchanger -y
@@ -573,9 +579,6 @@ case $1 in
           #clear
           #pkg install proot -y
           #pkg install tsudo -y
-          pkg install tsu -y
-          #clear
-          sleep 5
           cp $FILENAME $PREFIX/bin/$FILENAME
           chmod a+rx $PREFIX/bin/$FILENAME
           rm $FILENAME
