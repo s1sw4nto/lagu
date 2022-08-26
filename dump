@@ -197,7 +197,7 @@ PS3='Choose: '
 foods=("Start Monitor" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" ""Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update" "Stop Monitor" "Exit")
 select fav in "${foods[@]}"; do
     case $fav in
-        "First Start Only")
+        "Start Monitor")
             if [ -d "$DIR" ]; then
                 echo "-------------------"
                 echo "Dump folder: $DIR"
