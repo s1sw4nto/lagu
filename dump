@@ -194,10 +194,10 @@ deauth(){
 }
 command(){
 PS3='Choose: '
-foods=("Start Monitor" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" ""Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update" "Stop Monitor" "Exit")
+foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update")
 select fav in "${foods[@]}"; do
     case $fav in
-        "Start Monitor")
+        "First Start Only")
             if [ -d "$DIR" ]; then
                 echo "-------------------"
                 echo "Dump folder: $DIR"
@@ -211,20 +211,17 @@ select fav in "${foods[@]}"; do
 				 mkdir $BESSIDE
             fi
             echo "-------------------"
-            echo "Start monitor cukup sekali diawal"
-            echo "Jika sudah selesai, pilih menu Stop Monitor"
+            echo "airmon-ng start" $WLAN
+            echo "Replace Mac adress" $WLAN
             echo "-------------------"
-			echo "WARNING! Matikan wifi dahulu jika nyala"
+			echo "WARNING! Matikan wifi jika masih on"
                         echo "Jika tidak HP akan hank"
-                        echo "Merubah wifi mode monitor"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
-                     [Yy]* )
-                                  echo "airmon-ng start" $WLAN
-                                  echo "Replace Mac adress" $WLAN
+                     [Yy]* ) echo "Wifi sudah mati"
                                   #airmon-ng start $WLAN > /dev/null 2>&1 &
                                   airmon-ng start $WLAN
                                   sleep 4
@@ -443,6 +440,17 @@ select fav in "${foods[@]}"; do
             rm -rf $TMP/Hashcat.hccap
             exit
         ;;
+        "Exit")
+                echo "-------------------"
+	            echo "Exit"
+	            killall mdk3 > /dev/null 2>&1 &
+                killall airodump-ng > /dev/null 2>&1 &
+                killall aircrack-ng > /dev/null 2>&1 &
+                killall aireplay-ng > /dev/null 2>&1 &
+                killall besside-ng > /dev/null 2>&1 &
+                killall $FILENAME
+	            exit
+	    ;;
         "Deauth MDK3 Whitelist")
              WBSSID=`cat $DIR/wbssid.txt`
 	         echo "-------------------"
@@ -479,26 +487,6 @@ select fav in "${foods[@]}"; do
         "Update")
            update
         ;;
-        "Stop Monitor")
-            echo "-------------------"
-            echo "airmon-ng stop" $WLAN
-            airmon-ng stop $WLAN
-            echo "Stop mode monitor"
-            echo "Setting wifi ke default"
-            echo "Wifi bisa di nyalakan lagi"
-            echo "-------------------"
-        ;;
-        "Exit")
-                echo "-------------------"
-	            echo "Exit"
-	            killall mdk3 > /dev/null 2>&1 &
-                killall airodump-ng > /dev/null 2>&1 &
-                killall aircrack-ng > /dev/null 2>&1 &
-                killall aireplay-ng > /dev/null 2>&1 &
-                killall besside-ng > /dev/null 2>&1 &
-                killall $FILENAME
-	            exit
-	    ;;
         *) echo "invalid option $REPLY";;
     esac
 done
@@ -651,9 +639,8 @@ case $1 in
           echo $wlan > $DIR/wlan.txt
           WLAN=`cat $DIR/wlan.txt`
 		  echo "-------------------"
-			echo "WARNING! Matikan wifi dahulu jika nyala"
+			echo "WARNING! Matikan wifi jika masih on"
                         echo "Jika tidak HP akan hank"
-                        echo "Merubah wifi mode monitor"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
