@@ -211,7 +211,7 @@ select fav in "${foods[@]}"; do
 				 mkdir $BESSIDE
             fi
             echo "-------------------"
-            echo "Start monitor cukup.sekali diawal"
+            echo "Start monitor cukup sekali diawal"
             echo "Jika sudah selesai, pilih menu Stop Monitor"
             echo "-------------------"
 			echo "WARNING! Matikan wifi dahulu jika nyala"
