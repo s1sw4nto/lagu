@@ -154,8 +154,8 @@ deauth(){
                         if [[ $hand > 0  ]]; then
                             essid=$(aircrack-ng $TMP/wpa-01.cap | awk -F " " 'NR==6{print $3}')
                             cp $TMP/wpa-01.cap $HASH/$essid.cap
+                            cp $HASH/* $LOCALDIR/hs
                             cp $TMP/wpa-01.cap $LOCALDIR/hs/$essid.cap
-                            cp $TMP/wpa-01.cap $LOCALDIR/tmp/$essid.cap
                             echo "-------------------"
                             echo "Handshake FOUND : $hand handshake"
                             echo "Disimpan di: $HASH/$essid.cap"
@@ -192,7 +192,7 @@ deauth(){
 }
 command(){
 PS3='Choose: '
-foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Update")
+foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update")
 select fav in "${foods[@]}"; do
     case $fav in
         "First Start Only")
@@ -468,6 +468,12 @@ select fav in "${foods[@]}"; do
 	          echo "-------------------"
              #besside-ng $WLAN -b $BSSID -с $CH -p 10 -v
              besside-ng $IFACE -b $BSSID -c $CH -v
+        ;;
+        ;;
+        "Delete")
+          rm -rf $LOCALDIR/hs/*.cap
+          rm -rf $LOCALDIR/tmp/*
+          rm -rf $LOCALDIR/besside/*
         ;;
         "Update")
            update
