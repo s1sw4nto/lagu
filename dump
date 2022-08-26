@@ -443,17 +443,6 @@ select fav in "${foods[@]}"; do
             rm -rf $TMP/Hashcat.hccap
             exit
         ;;
-        "Exit")
-                echo "-------------------"
-	            echo "Exit"
-	            killall mdk3 > /dev/null 2>&1 &
-                killall airodump-ng > /dev/null 2>&1 &
-                killall aircrack-ng > /dev/null 2>&1 &
-                killall aireplay-ng > /dev/null 2>&1 &
-                killall besside-ng > /dev/null 2>&1 &
-                killall $FILENAME
-	            exit
-	    ;;
         "Deauth MDK3 Whitelist")
              WBSSID=`cat $DIR/wbssid.txt`
 	         echo "-------------------"
@@ -499,6 +488,17 @@ select fav in "${foods[@]}"; do
             echo "Wifi bisa di nyalakan lagi"
             echo "-------------------"
         ;;
+        "Exit")
+                echo "-------------------"
+	            echo "Exit"
+	            killall mdk3 > /dev/null 2>&1 &
+                killall airodump-ng > /dev/null 2>&1 &
+                killall aircrack-ng > /dev/null 2>&1 &
+                killall aireplay-ng > /dev/null 2>&1 &
+                killall besside-ng > /dev/null 2>&1 &
+                killall $FILENAME
+	            exit
+	    ;;
         *) echo "invalid option $REPLY";;
     esac
 done
