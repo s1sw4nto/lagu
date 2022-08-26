@@ -505,11 +505,11 @@ update(){
           cat sources.list
           echo "-------------------"
           #echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
-          pkg clean -y
-          pkg autoclean -y
-          pkg update -y
-          cat sources.list
-          echo "-------------------"
+          #pkg clean -y
+          #pkg autoclean -y
+          #pkg update -y
+          #cat sources.list
+          #echo "-------------------"
           echo "Update selesai"
           echo "-------------------"
           echo "Ketik: $FILENAME"
