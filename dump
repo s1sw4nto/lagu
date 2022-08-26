@@ -476,6 +476,8 @@ select fav in "${foods[@]}"; do
           echo "-------------------"
           cat $PASS
           echo "-------------------"
+          echo "Exit"
+          echo "-------------------"
           rm -rf $LOCALDIR/hs/*.cap
           rm -rf $LOCALDIR/tmp/*
           rm -rf $LOCALDIR/besside/*
