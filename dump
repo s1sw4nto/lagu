@@ -103,6 +103,7 @@ crack(){
                    echo "----------------------------------------"
                    cat $PASS
                    echo "----------------------------------------"
+                   cp $HASH/* $LOCALDIR/hs
                    killall aircrack-ng > /dev/null 2>&1 &
                    killall $FILENAME
 	               exit
@@ -408,6 +409,7 @@ select fav in "${foods[@]}"; do
                    echo "-------------------"
                    cat $PASS
                    echo "-------------------"
+                   cp $HASH/* $LOCALDIR/hs
                    killall airodump-ng > /dev/null 2>&1 &
                    killall aircrack-ng > /dev/null 2>&1 &
                    killall aireplay-ng > /dev/null 2>&1 &
@@ -470,6 +472,12 @@ select fav in "${foods[@]}"; do
              besside-ng $IFACE -b $BSSID -c $CH -v
         ;;
         "Delete")
+          clear
+          echo "-------------------"
+          cat $PASS
+          echo "-------------------"
+          echo "Exit""
+          echo "-------------------"
           rm -rf $LOCALDIR/hs/*.cap
           rm -rf $LOCALDIR/tmp/*
           rm -rf $LOCALDIR/besside/*
