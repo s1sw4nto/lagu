@@ -211,8 +211,8 @@ select fav in "${foods[@]}"; do
 				 mkdir $BESSIDE
             fi
             echo "-------------------"
-            echo "airmon-ng start" $WLAN
-            echo "Replace Mac adress" $WLAN
+            echo "Start monitor cukup.sekali diawal"
+            echo "Jika sudah selesai, pilih menu Stop Monitor"
             echo "-------------------"
 			echo "WARNING! Matikan wifi dahulu jika nyala"
                         echo "Jika tidak HP akan hank"
@@ -222,7 +222,9 @@ select fav in "${foods[@]}"; do
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
-                     [Yy]* ) echo "Wifi sudah mati"
+                     [Yy]* )
+                                  echo "airmon-ng start" $WLAN
+                                  echo "Replace Mac adress" $WLAN
                                   #airmon-ng start $WLAN > /dev/null 2>&1 &
                                   airmon-ng start $WLAN
                                   sleep 4
