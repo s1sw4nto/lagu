@@ -148,7 +148,7 @@ deauth(){
              #airodump-ng $IFACE --berlin 10 -f 500 -a --channel $CH --bssid $BSSID -w $TMP/wpa --output-format pcap,csv --ignore-negative-one  > /dev/null 2>&1 &
              while true
              do
-                  for (( i=15; i>0; i--)); do
+                  for (( i=25; i>0; i--)); do
                         sleep 1
                         #aircrack-ng -a 2 -w $WORDLIST -b $BSSID $TMP/wpa-01.cap -l $KEY
                         hand=$(aircrack-ng $TMP/wpa-01.cap | awk -F "(" 'NR==6{print $2}'  | awk -F " " '{print $1}')
