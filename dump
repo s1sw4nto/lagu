@@ -194,7 +194,7 @@ deauth(){
 }
 command(){
 PS3='Choose: '
-foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update")
+foods=("Start Monitor" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" ""Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update" "Stop Monitor" "Exit")
 select fav in "${foods[@]}"; do
     case $fav in
         "First Start Only")
@@ -214,8 +214,9 @@ select fav in "${foods[@]}"; do
             echo "airmon-ng start" $WLAN
             echo "Replace Mac adress" $WLAN
             echo "-------------------"
-			echo "WARNING! Matikan wifi jika masih on"
+			echo "WARNING! Matikan wifi dahulu jika nyala"
                         echo "Jika tidak HP akan hank"
+                        echo "Merubah wifi mode monitor"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
@@ -487,6 +488,15 @@ select fav in "${foods[@]}"; do
         "Update")
            update
         ;;
+        "Stop Monitor")
+            echo "-------------------"
+            echo "airmon-ng stop" $WLAN
+            airmon-ng stop $WLAN
+            echo "Stop mode monitor"
+            echo "Setting wifi ke default"
+            echo "Wifi bisa di nyalakan lagi"
+            echo "-------------------"
+        ;;
         *) echo "invalid option $REPLY";;
     esac
 done
@@ -639,8 +649,9 @@ case $1 in
           echo $wlan > $DIR/wlan.txt
           WLAN=`cat $DIR/wlan.txt`
 		  echo "-------------------"
-			echo "WARNING! Matikan wifi jika masih on"
+			echo "WARNING! Matikan wifi dahulu jika nyala"
                         echo "Jika tidak HP akan hank"
+                        echo "Merubah wifi mode monitor"
                         echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
