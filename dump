@@ -194,10 +194,10 @@ deauth(){
 }
 command(){
 PS3='Choose: '
-foods=("First Start Only" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update")
+foods=("Start Monitor" "Monitor Network" "Select Target" "Monitor Target" "Deauth Target" "Deauth MDK3 Blacklist" "Crack" "Crack Cap" "Airde-Cap" "Get Client" "Exit" "Deauth MDK3 Whitelist" "Deauth BESSIDE" "Delete" "Update" "Stop Monitor")
 select fav in "${foods[@]}"; do
     case $fav in
-        "First Start Only")
+        "Start Monitor")
             if [ -d "$DIR" ]; then
                 echo "-------------------"
                 echo "Dump folder: $DIR"
@@ -486,6 +486,13 @@ select fav in "${foods[@]}"; do
         ;;
         "Update")
            update
+        ;;
+        "Stop Monitor")
+             echo "airmon-ng stop" $WLAN
+             echo "Change wifi to default"
+             echo "Wifi bisa dinyalakan lagi"
+             airmon-ng stop $WLAN
+		     echo "-------------------"
         ;;
         *) echo "invalid option $REPLY";;
     esac
