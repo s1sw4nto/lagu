@@ -469,7 +469,6 @@ select fav in "${foods[@]}"; do
              #besside-ng $WLAN -b $BSSID -с $CH -p 10 -v
              besside-ng $IFACE -b $BSSID -c $CH -v
         ;;
-        ;;
         "Delete")
           rm -rf $LOCALDIR/hs/*.cap
           rm -rf $LOCALDIR/tmp/*
