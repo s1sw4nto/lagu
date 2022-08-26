@@ -211,17 +211,19 @@ select fav in "${foods[@]}"; do
 				 mkdir $BESSIDE
             fi
             echo "-------------------"
-            echo "airmon-ng start" $WLAN
-            echo "Replace Mac adress" $WLAN
+            echo "Start Monitor dipilih pertama kali saja"
+            echo "Jika sudah selesai pilih Stop Monitor"
             echo "-------------------"
 			echo "WARNING! Matikan wifi jika masih on"
-                        echo "Jika tidak HP akan hank"
-                        echo "-----------------"
+            echo "Jika tidak HP akan hank"
+            echo "-----------------"
 			echo "Ketik: y jika sudah mati"
 			echo "-----------------"
 			read -p "Pilih: " yn
             case $yn in
-                     [Yy]* ) echo "Wifi sudah mati"
+                     [Yy]* ) echo "airmon-ng start" $WLAN
+                                 echo "Replace Mac adress" $WLAN
+                                 echo "Merubah wifi mode monitor"
                                   #airmon-ng start $WLAN > /dev/null 2>&1 &
                                   airmon-ng start $WLAN
                                   sleep 4
@@ -246,6 +248,7 @@ select fav in "${foods[@]}"; do
                      ;;
                      * ) echo "Please answer Yes or No or Del";;
             esac
+            echo "Sekarang bisa pilih no: 2"
         ;;
         "Monitor Network")
             echo "-------------------"
@@ -488,11 +491,13 @@ select fav in "${foods[@]}"; do
            update
         ;;
         "Stop Monitor")
+             clear
              echo "airmon-ng stop" $WLAN
              echo "Change wifi to default"
              echo "Wifi bisa dinyalakan lagi"
              airmon-ng stop $WLAN
 		     echo "-------------------"
+		     exit
         ;;
         *) echo "invalid option $REPLY";;
     esac
