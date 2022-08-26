@@ -691,7 +691,7 @@ case $1 in
 	 fi
 ;;
 *)
-        echo "Command: $FILENAME install"
+        #echo "Command: $FILENAME install"
         command
 ;;
 esac
