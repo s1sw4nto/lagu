@@ -474,9 +474,7 @@ select fav in "${foods[@]}"; do
         "Delete")
           clear
           echo "-------------------"
-          cat "$PASS"
-          echo "-------------------"
-          echo "Exit"
+          cat $PASS
           echo "-------------------"
           rm -rf $LOCALDIR/hs/*.cap
           rm -rf $LOCALDIR/tmp/*
