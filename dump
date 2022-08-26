@@ -473,6 +473,7 @@ select fav in "${foods[@]}"; do
           rm -rf $LOCALDIR/hs/*.cap
           rm -rf $LOCALDIR/tmp/*
           rm -rf $LOCALDIR/besside/*
+          exit
         ;;
         "Update")
            update
