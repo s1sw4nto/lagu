@@ -23,6 +23,7 @@ IFACE=`cat $DIR/ifmon.txt`
 #IFACE=mon0
 URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/$FILENAME"
 #pkg update -y && pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/dump -O dump && chmod a+rx dump && ./dump install
+#pkg update -y && pkg install wget -y && wget https://id.radioimzers.com:81/dump -O dump && chmod a+rx dump && ./dump install
 clear
 echo "ESSID:" $ESSID
 echo "BSSID:" $BSSID
