@@ -286,15 +286,15 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
 
     #echo "$filename.mp4"
     #echo "-----------------"
-    #ffmpeg -re -y -loglevel panic -hide_banner -nostats -i "$video" -i "$audio" -c:v "libx264" -c:a "aac" -ac 2 -b:a 160k -ar 48000 -filter:a "volume=1.0" -tune "film" -preset:v "superfast" -vsync:v "cfr" "$filename.mp4"
+    #ffmpeg -re -y -loglevel panic -hide_banner -nostats -i "$video" -i "$audio" -c:v "libx264" -c:a "aac" -ac 2 -b:a 160k -ar 48000 -filter:a "volume=1.0" -tune "film" -preset:v "superfast" "$filename.mp4"
      #$YOUTUBE_DL -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]" -i $url --metadata-from-title "%(title)s" -o "video.mp4" --restrict-filenames 
 
       #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]" -i $url -o "video.mp4"
-      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/bestaudio" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i video.mp4 -i {} -y -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" {}.mp4 && rm {} && rm video.mp4"
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/bestaudio" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i video.mp4 -i {} -y -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" {}.mp4 && rm {} && rm video.mp4"
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -357,7 +357,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -425,7 +425,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -492,7 +492,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -548,7 +548,7 @@ case $fav in
       echo "Proses Convert FFMPEG"
       echo "Tunggu sampai selesai"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -595,7 +595,7 @@ case $fav in
       echo "Proses Convert FFMPEG"
       echo "Tunggu sampai selesai"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -719,7 +719,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-     ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+     ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -775,7 +775,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -843,7 +843,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-     ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" -vsync:v "cfr" "$title".mp4
+     ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -1055,7 +1055,7 @@ case $fav in
       echo "Proses Convert FFMPEG"
       echo "Tunggu sampai selesai"
       echo "-----------------"
-      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i tiktok.webm -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" tiktok.mp4
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i tiktok.webm -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast"  tiktok.mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -1163,7 +1163,7 @@ film(){
        echo "Poses Ini butuh waktu lama, sesuai durasi film"
        echo "-----------------"
        ffmpeg -y -re -loglevel warning -hide_banner -stats -itsoffset "-0.1" -i subtitle.srt adjustsubtitle.srt
-       ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$video" -threads 6 -c:v "libx264" -x264-params crf="$crf" -movflags faststart -strict -2 -filter_complex "scale=-1:720,subtitles=adjustsubtitle.srt:force_style='Name=Default,FontName=Hack-BoldItalic,Fontsize=18,PrimaryColour=&Hffffff,SecondaryColour=&Hffffff,OutlineColour=&H44000000,BackColour=&H0,BorderStyle=2,Outline=1,Shadow=1,MarginV=2'" -c:a aac -tune "film" -preset:v "superfast" -vsync:v "cfr" $title.mp4
+       ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$video" -threads 6 -c:v "libx264" -x264-params crf="$crf" -movflags faststart -strict -2 -filter_complex "scale=-1:720,subtitles=adjustsubtitle.srt:force_style='Name=Default,FontName=Hack-BoldItalic,Fontsize=18,PrimaryColour=&Hffffff,SecondaryColour=&Hffffff,OutlineColour=&H44000000,BackColour=&H0,BorderStyle=2,Outline=1,Shadow=1,MarginV=2'" -c:a aac -tune "film" -preset:v "superfast" $title.mp4
      clear
      lagu=$(find -type f -name "*.mp4")
      clear
@@ -1186,10 +1186,10 @@ live(){
       echo "-----------------"
       #timeout $dur $YOUTUBE_DL -f "$res" -i $url --metadata-from-title "%(title)s" -o video.mp4
       #sleep 5
-      #ffmpeg -loglevel warning -hide_banner -nostats -i video.mp4.part -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" "$title".mp4 && rm video.mp4.part
-      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -t $dur -threads 6 -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
-      #ffmpeg -loglevel warning -hide_banner -stats -i $(LC_ALL=en_US.UTF-8 $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url) -y -t $dur -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" -vsync:v "cfr" "$title".mp4
-      #timeout $dur $YOUTUBE_DL -f "$res" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel warning -hide_banner -nostats -i {} -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" -vsync:v "cfr" {}.mp4 && rm {}"
+      #ffmpeg -loglevel warning -hide_banner -nostats -i video.mp4.part -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4 && rm video.mp4.part
+      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -t $dur -threads 6 -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" "$title".mp4
+      #ffmpeg -loglevel warning -hide_banner -stats -i $(LC_ALL=en_US.UTF-8 $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url) -y -t $dur -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" "$title".mp4
+      #timeout $dur $YOUTUBE_DL -f "$res" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel warning -hide_banner -nostats -i {} -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" {}.mp4 && rm {}"
      # $YOUTUBE_DL --postprocessor-args "-ss 00:00:00 -t $dur"
      clear
      lagu=$(find -type f -name "*.mp4")
@@ -1285,8 +1285,9 @@ crop(){
       echo "Crop Tengah: iw-350:ih-200"
       echo "Crop Tengah: iw-500:ih"
       echo "Crop Tengah 480p: iw-585:ih"
-      echo "Crop Tengah: iw-800:ih"
-      echo "Crop Tengah: iw-876:ih"
+      echo "Crop Tengah 720p: iw-876:ih"
+      echo "Crop Tengah 1080p: iw-1314:ih"
+      echo "Crop Tengah 1920p: iw-2336:ih"
       #echo "Crop Kiri: iw/2:ih:0:0"
       #echo "Crop Kiri: (iw/2)-100:ih:0:0"
       echo "Crop Kiri Setengah: iw/2:ih:0:0"
