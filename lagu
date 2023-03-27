@@ -52,9 +52,9 @@ update(){
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-          rm -rf $PREFIX/bin/youtube-dl
+          # rm -rf $PREFIX/bin/youtube-dl
           # manual repo
-          pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+          # pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
           clear
           cd $PREFIX/etc/apt
           ls
