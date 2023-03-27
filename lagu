@@ -1353,6 +1353,8 @@ case $1 in
           clear
           pkg install aria2 -y
           clear
+	  pkg install git -y
+          clear
           #pkg install proot -y
           #pkg install tsudo -y
           #pkg install tsu -y
