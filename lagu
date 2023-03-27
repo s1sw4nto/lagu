@@ -52,8 +52,8 @@ update(){
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
-		  rm -rf $PREFIX/bin/youtube-dl
-		  # manual repo
+          rm -rf $PREFIX/bin/youtube-dl
+          # manual repo
           pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
           clear
           cd $PREFIX/etc/apt
@@ -1356,9 +1356,11 @@ case $1 in
           #pkg install proot -y
           #pkg install tsudo -y
           #pkg install tsu -y
-          wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          # wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+	  # manual repo
+          pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
           clear
-          chmod a+rx $PREFIX/bin/youtube-dl
+          # chmod a+rx $PREFIX/bin/youtube-dl
           cp lagu $PREFIX/bin/lagu
           chmod a+rx $PREFIX/bin/lagu
           rm lagu
