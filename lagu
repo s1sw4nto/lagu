@@ -86,7 +86,7 @@ update(){
 
 command(){
 PS3='Pilih Nomer: '
-menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "PlayBack" "Crop" "Crop+Custom" "Crop+Custom Start End" "Live" "Film" "Gambar" "Check" "Reff" "Update" "Radio" "Stop / Exit")
+menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "PlayBack" "Crop" "Crop+Custom" "Crop+Custom Start End" "Live" "Film" "Gambar" "Check" "Reff" "Update" "Stop / Exit")
 echo "-----------------"
 echo "Pilih salah satu:"
 echo "-----------------"
