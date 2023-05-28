@@ -849,7 +849,7 @@ case $fav in
     echo "Proses Convert FFMPEG"
     echo "Tunggu sampai selesai"
     echo "-----------------"
-     ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
      # -ss 00:00:$start
      clear
      lagu=$(find -type f -name "*.mp4")
