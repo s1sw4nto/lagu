@@ -819,10 +819,10 @@ case $fav in
       echo "-----------------"
       read end
       echo "-----------------"
-      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
-      echo "-----------------"
-      read vol
-      echo "-----------------"
+      #echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      #echo "-----------------"
+      #read vol
+      #echo "-----------------"
       echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
       echo "-----------------"
       read res
