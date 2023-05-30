@@ -1,0 +1,1510 @@
+#!/bin/bash
+#backup
+#termux-setup-storage
+#tar -zcf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr
+#restore
+#termux-setup-storage
+#tar -zxf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions
+#Now close Termux with the "exit" button from notification and open it again.
+# chmod a+x lagu
+# which youtube-dl
+# which ffmpeg
+# rm -rf $PREFIX/var/lib/apt/lists/lock
+# rm -rf $PREFIX/var/lib/dpkg/lock-frontend
+# echo "Nanti ketik Y terus" && pkg update -y && pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu && chmod a+rx lagu && ./lagu install
+# wget lagu jika error
+# wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
+# manual repo
+# pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+URLUPDATE="https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu"
+DIR="$HOME/storage/shared/TermuxFiles"
+YOUTUBE_DL="$PREFIX/bin/youtube-dl"
+FONT="$PREFIX/share/fonts/TTF/DejaVuSerif-BoldItalic.ttf"
+HOME="$HOME"
+RADIO=$HOME/radio.txt
+#youtube-dl --dump-user-agent
+user_agent=$(youtube-dl --dump-user-agent)
+#user_agent="Mozilla/5.0 (Linux; Android 9; SM-J730G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36"
+echo "$user_agent"
+#echo $HOME
+
+COOKIES="cookies"
+rm -rf wget.log
+rm -rf *.aria2
+rm -rf *.webm
+rm -rf *.mp3
+
+#mv *.opus $DIR
+#mv *.m4a $DIR
+
+update(){
+   clear
+   ping -c 4 -s 560 1.1.1.1
+   if [ "$?" != "0" ];then
+		  echo "-------------------"
+          echo "Ping failed"
+          echo "Cannot Update"
+          echo "-------------------"
+   else
+          clear
+          #wget $URLUPDATE -O lagu
+          #cp lagu $PREFIX/bin/lagu
+          #rm lagu
+          youtube-dl --rm-cache-dir
+          wget $URLUPDATE -O $PREFIX/bin/lagu 
+          clear
+          #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+          # rm -rf $PREFIX/bin/youtube-dl
+          # manual repo
+          #pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+          #clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          #echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          pkg clean -y
+          pkg autoclean -y
+          pkg update -y
+          pkg reinstall openssl -y
+          clear
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          echo "Update selesai"
+          echo "-------------------"
+          echo "Checking Youtube dl Version"
+          echo "Please wait"
+          echo "-------------------"
+          yt=$($YOUTUBE_DL --version)
+          echo "Youtube dl Version: $yt"
+          echo "-------------------"
+          echo "Ketik: lagu"
+          echo "-------------------"
+          exit
+    fi
+}
+
+command(){
+PS3='Pilih Nomer: '
+menus=("Mp3 Normal" "Mp3 Custom" "Mp3 Start End" "Video Normal" "Video Custom" "Video Start End" "Video+Audio" "Mp4" "Best" "PlayBack" "Crop" "Crop+Custom" "Crop+Custom Start End" "Live" "Film" "Gambar" "Check" "Reff" "Update" "Radio" "Stop / Exit")
+echo "-----------------"
+echo "Pilih salah satu:"
+echo "-----------------"
+select fav in "${menus[@]}"; do
+case $fav in
+"Mp3 Normal")
+      clear
+      echo "-----------------"
+      echo "Convert MP3 Normal"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      sleep 2
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert MP3"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp3"
+      echo "-----------------"
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" "$url" -o "lagu.mp3"
+      #lame --preset standard lagu.mp3 lagu2.mp3
+      #rm -rf lagu.mp3
+      #mv lagu2.mp3 "$title".mp3
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" "$title".mp3
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" {}.mp3 && rm {}"
+      clear
+      lagu=$(find -type f -name "*.mp3")
+      clear
+      echo "-----------------"
+      echo "Selesai"
+      echo "-----------------"
+      echo "Lagu MP3 tersimpan di $DIR"
+      echo "-----------------"
+      echo "$lagu"
+      echo "-----------------"
+      mv *.mp3 $DIR
+      rm -rf *_-_*
+      rm -rf *.webm
+      exit
+;;
+"Mp3 Custom")
+      clear
+      echo "-----------------"
+      echo "Convert MP3 Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      echo "-----------------"
+      read vol
+      sleep 2
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert MP3"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp3"
+      echo "-----------------"
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -ss 00:00:"$start" -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" {}.mp3 && rm {}"
+      clear
+      lagu=$(find -type f -name "*.mp3")
+      clear
+      echo "-----------------"
+      echo "Selesai"
+      echo "-----------------"
+      echo "Lagu MP3 tersimpan di $DIR"
+      echo "-----------------"
+      echo "$lagu"
+      echo "-----------------"
+      mv *.mp3 $DIR
+      rm -rf *_-_*
+      rm -rf *.webm
+      exit
+;;
+"Mp3 Start End")
+      clear
+      echo "-----------------"
+      echo "Convert MP3 Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      echo "Enter End time: 10:03 (End 10 menit 3 detik)"
+      echo "-----------------"
+      read end
+      echo "-----------------"
+      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      echo "-----------------"
+      read vol
+      sleep 2
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert MP3"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp3"
+      echo "-----------------"
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$audio"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -threads 6 -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" "$title".mp3
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i --min-filesize 1m --max-filesize 50m $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i {} -y -ss 00:00:"$start" -acodec "libmp3lame" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" {}.mp3 && rm {}"
+      clear
+      lagu=$(find -type f -name "*.mp3")
+      clear
+      echo "-----------------"
+      echo "Selesai"
+      echo "-----------------"
+      echo "Lagu MP3 tersimpan di $DIR"
+      echo "-----------------"
+      echo "$lagu"
+      echo "-----------------"
+      mv *.mp3 $DIR
+      rm -rf *_-_*
+      rm -rf *.webm
+      exit
+;;
+"Video Normal")
+      clear
+      echo "-----------------"
+      echo "Convert Video Normal"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      #title=$($YOUTUBE_DL --get-filename -o "%(title)s" --restrict-filenames $url)
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    #audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url")
+    echo "$audio"
+    echo "-----------------"
+    #video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]" -i -g "$url")
+    echo "$video"
+    echo "-----------------"
+    #title="$($YOUTUBE_DL --get-filename $url --restrict-filenames | awk -F "-$($YOUTUBE_DL --get-id $url)" '{print $1}' | sed 's/_/ /g' | sed 's/  */ /g') - Radio Dangdut 24 Jam - Radio Imzers Streaming"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+
+    #echo "$filename.mp4"
+    #echo "-----------------"
+    #ffmpeg -re -y -loglevel panic -hide_banner -nostats -i "$video" -i "$audio" -c:v "libx264" -c:a "aac" -ac 2 -b:a 160k -ar 48000 -filter:a "volume=1.0" -tune "film" -preset:v "superfast" "$filename.mp4"
+     #$YOUTUBE_DL -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]" -i $url --metadata-from-title "%(title)s" -o "video.mp4" --restrict-filenames 
+
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]" -i $url -o "video.mp4"
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/bestaudio" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel panic -hide_banner -stats -i video.mp4 -i {} -y -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" {}.mp4 && rm {} && rm video.mp4"
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Video Custom")
+      clear
+      echo "-----------------"
+      echo "Convert Video Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      echo "-----------------"
+      read vol
+      echo "-----------------"
+      echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    echo "$audio"
+    echo "-----------------"
+    echo "$video"
+    echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     # -ss 00:00:$start
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Video Start End")
+      clear
+      echo "-----------------"
+      echo "Convert Video Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      echo "Enter End time: 10:03 (End 10 menit 3 detik)"
+      echo "-----------------"
+      read end
+      echo "-----------------"
+      echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      echo "-----------------"
+      read vol
+      echo "-----------------"
+      echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    echo "$audio"
+    echo "-----------------"
+    echo "$video"
+    echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=$vol" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     # -ss 00:00:$start
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Video+Audio")
+      clear
+      echo "-----------------"
+      echo "Convert Video.dan Audio sesuai pilihan"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Check Format Code Video dan Audio, sabar"
+      echo "Sebaiknya putar hp menjadi landscape"
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -F $url
+      echo "-----------------"
+      echo "Enter Format Code (sebelah kiri) video only dan audio only"
+      echo "-----------------"
+      echo "Enter Video Format: 244 - 136 - 299 atau lainya"
+      echo "-----------------"
+      read video
+      echo "-----------------"
+      echo "Enter Audio Format: 251 atau lainya"
+      echo "-----------------"
+      read audio
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$video+$audio" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    echo "$audio"
+    echo "-----------------"
+    echo "$video"
+    echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Mp4")
+      clear
+      echo "-----------------"
+      echo "Convert Video Sesuai Codec"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Check Format Code yang tersedia, sabar"
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -F $url
+      echo "-----------------"
+      echo "Enter Format Code (sebelah kiri) atau isi saja: best"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url --cookies=${COOKIES})
+      echo "$video"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Best")
+      clear
+      echo "-----------------"
+      echo "Convert Video Best Code"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url --cookies=${COOKIES})
+      echo "$video"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -threads 6 -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"PlayBack")
+      clear
+      echo "-----------------"
+      echo "PlayBack Best Code"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Disimpan Video ketik: V"
+      echo "Disimpam Mp3 ketik: M"
+          read -p "Pilih: " yn
+          echo "-----------------"
+          case $yn in
+                     [Vv]* ) 
+                     
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "best" -i -g $url --cookies=${COOKIES})
+      
+      echo "$video"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      #cat $COOKIES
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp4 "$video"
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+     ;;
+     [Mm]* ) 
+     audio=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestaudio[asr=48000]/best" -i -g "$url" --cookies=${COOKIES})
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp3"
+      echo "-----------------"
+      #cat $COOKIES
+      aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+      clear
+      lagu=$(find -type f -name "*.mp3")
+      clear
+      echo "-----------------"
+      echo "Selesai"
+      echo "-----------------"
+      echo "Lagu MP3 tersimpan di $DIR"
+      echo "-----------------"
+      echo "$lagu"
+      echo "-----------------"
+      mv *.mp3 $DIR
+      rm -rf *_-_*
+      exit
+      ;;
+     * ) echo "Please answer video or mp3.";;
+     esac
+;;
+"Crop")
+      #https://www.linuxuprising.com/2020/01/ffmpeg-how-to-crop-videos-with-examples.html?m=1
+      clear
+      echo "-----------------"
+      echo "Convert Video Cropping"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      crop
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+      video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+      audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+      echo "$video"
+      echo "-----------------"
+      echo "$audio"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+     ffmpeg -y -re -loglevel warning -hide_banner -nostats -i "$title".webm -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Crop+Custom")
+      clear
+      echo "-----------------"
+      echo "Convert Video Crop + Custom"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      crop
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      read start
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=720][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    echo "$audio"
+    echo "-----------------"
+    echo "$video"
+    echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    ffmpeg -y -re -loglevel warning -hide_banner -nostats -ss 00:"$start" -i "$title".webm -ss 00:"$start" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Crop+Custom Start End")
+      clear
+      echo "-----------------"
+      echo "Convert Video Custom Start End"
+      echo "-----------------"
+      echo "Enter Youtube URL:"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      cat youtubedl.txt
+      echo "-----------------"
+      crop=$(cat youtubedl.txt | awk -F " " 'NR == 1{print}')
+      echo "$crop" 
+      read -p "Change Crop: y/n ? " yn
+      echo "-----------------"
+							case $yn in
+							[Yy]* ) 
+							crop
+                            ;;
+                            [Nn]* ) 
+                            crop=$(cat youtubedl.txt | awk -F " " 'NR == 1{print}')
+                            echo "$crop" > res.txt
+                            echo "$crop" 
+                            ;;
+                            * ) echo "Please answer Y or N";;
+                            esac
+      echo "-----------------"
+      echo "Enter Start time: 00:00 (normal) atau 01:03 (maju 1 menit 3 detik)"
+      echo "-----------------"
+      starts=$(cat youtubedl.txt | awk -F " " 'NR == 2{print}')
+      echo "Last setting: $starts"
+      echo "-----------------"
+      read start
+      echo "$start" >> res.txt
+      echo "-----------------"
+      echo "Enter End time: 10:03 (End 10 menit 3 detik)"
+      echo "-----------------"
+      ends=$(cat youtubedl.txt | awk -F " " 'NR == 3{print}')
+      echo "Last setting: $ends"
+      echo "-----------------"
+      read end
+      echo "$end" >> res.txt
+      echo "-----------------"
+      #echo "Enter Volume: 1.0 (normal) atau 1.2 (boost 2%)"
+      #echo "-----------------"
+      #read vol
+      #echo "-----------------"
+      echo "Enter resolusi: 360- 480 - 720 -1080 atau 1920 jika ada"
+      echo "-----------------"
+      res=$(cat youtubedl.txt | awk -F " " 'NR == 4{print}')
+      echo "Last setting: $res"
+      read -p "Change res: y/n ? " yn
+      echo "-----------------"
+							case $yn in
+							[Yy]* ) 
+							read res
+							echo "$res" >> res.txt
+                            ;;
+                            [Nn]* ) 
+                            res=$(cat youtubedl.txt | awk -F " " 'NR == 4{print}')
+                            echo "$res" >> res.txt
+                            echo "$res"
+                            ;;
+                            * ) echo "Please answer Y or N";;
+                            esac
+    echo "-----------------"
+    cat res.txt > youtubedl.txt
+    cat res.txt
+    echo "-----------------"
+    $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "bestvideo[height<=$res][vcodec^=vp9][fps<=60]+bestaudio[asr=48000]" -i -g $url --cookies=${COOKIES} > link.txt
+    video=$(cat link.txt | awk -F " " 'NR == 1{print}')
+    audio=$(cat link.txt | awk -F " " 'NR == 2{print}')
+    echo "Proses Download dan Convert Video MP4"
+    echo "-----------------"
+    echo "Ini butuh waktu lama, tergantung koneksi internet"
+    echo "-----------------"
+    #echo "$audio"
+    #echo "-----------------"
+    #echo "$video"
+    #echo "-----------------"
+    judul
+    echo "File tersimpan dengan nama:"
+    echo "-----------------"
+    echo "$title.mp4"
+    echo "-----------------"
+    aria2c -c -j 16 -x 16 -s 16 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".webm "$video"
+    aria2c -c -j 6 -x 6 -s 6 -k 1M --load-cookies="$COOKIES" -U  "$user_agent" -o "$title".mp3 "$audio"
+    echo "-----------------"
+    echo "Proses Convert FFMPEG"
+    echo "Tunggu sampai selesai"
+    echo "-----------------"
+    #ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "superfast" "$title".mp4
+    #ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop, drawtext=text='TIKTOK':x=(w-text_w)/2:y=h-th-285:fontfile=$FONT:fontsize=20:alpha=0.4:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2, drawtext=text='Radio Dangdut 24 Jam':x=(w-text_w)/2:y=h-th-260:fontfile=$FONT:fontsize=20:alpha=0.4:fontcolor=white:shadowcolor=black:shadowx=2:shadowy=2" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -af "equalizer=f=10000:t=h:w=50:g=4,equalizer=f=50:t=h:w=20:g=7" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "faster" "$title".mp4
+     
+    ffmpeg -y -re -loglevel warning -hide_banner -stats -ss 00:"$start" -to 00:"$end" -i "$title".webm -ss 00:"$start" -to 00:"$end" -i "$title".mp3 -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -af "equalizer=f=10000:t=h:w=50:g=4,equalizer=f=50:t=h:w=20:g=7" -shortest -strict -2 -map 0:v:0 -map 1:a:0 -preset:v "faster" "$title".mp4
+    
+    # -ss 00:00:$start
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv "$title.mp4" $DIR
+     mv "$DIR/title.mp4" $HOME/storage/downloads
+     rm -rf *.mp4
+     rm -rf .mp4
+     rm -rf *.mp3
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Live")
+      killall youtube-dl
+      killall ffmpeg
+      clear
+      echo "-----------------"
+      echo "Merekam Video Live Streaming"
+      echo "-----------------"
+      echo "Enter URL Youtube Live"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Check Format Code yang tersedia, sabar"
+      echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -F $url
+      echo "-----------------"
+      echo "Enter Format Code (sebelah kiri) atau isi saja: best"
+      echo "-----------------"
+      read res
+      echo "-----------------"
+      echo "Enter CRF: 10 sampai 50 , semakin besar semakin jelek, 25 cukup"
+      echo "-----------------"
+      read crf
+      echo "-----------------"
+      echo "Enter Format Durasi rekaman:"
+      echo "Contoh: 05:30 untuk 5 menit 30 detik"
+      echo "Contoh: 05:05:30 untuk 5 jam 5 menit 30 detik"
+      echo "-----------------"
+      read dur
+      echo "-----------------"
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Tekan CRTL C untuk menghentikan paksa"
+      echo "-----------------"
+      echo "Durasi video: $dur"
+      echo "-----------------"
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url)
+      echo "$video"
+      echo "-----------------"
+      judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      echo "Running on background about: $dur"
+      echo "-----------------"
+      #live > /dev/null 2>&1 &
+      live
+;;
+"Film")
+      rm -rf subtitle
+      mkdir subtitle
+      clear
+      echo "-----------------"
+      echo "Convert Film dan Subtitle"
+      echo "-----------------"
+      echo "Enter URL Movie"
+      echo "-----------------"
+      read url
+      ref
+      echo "-----------------"
+      cat $HOME/referer.txt
+      echo "-----------------"
+      echo "Enter URL Subtitle"
+      echo "-----------------"
+      read sub
+      echo "-----------------"
+      echo "Enter CRF: 10 sampai 50 , semakin besar semakin jelek, 25 cukup"
+      echo "-----------------"
+      read crf
+      echo "-----------------"
+      wget --no-check-certificate "$sub" -o wget.log -O subtitle.zip
+      unzip subtitle.zip -d subtitle
+      cd subtitle
+      rm -rf *.text
+      rm -rf *.txt
+      #ls -t | tail -n +1 | grep "srt" | awk -F " " 'NR==1{print}' | xargs -I {} echo {} > $HOME/title.txt
+      #title=$(ls -t | tail -n +1 | grep "srt" | awk -F " " 'NR==1{print}' | xargs -I {} echo {})
+      title=$(ls -t | tail -n +1 | grep "srt" | awk -F " " 'NR==1{print}' | xargs -I {} echo {} | awk -F ".srt" '{print $1'})
+      #judul=$(cat $DIR/title.txt | awk -F ".srt" '{print $1'})
+      ls -t | tail -n +1 | grep "srt" | awk -F " " 'NR==1{print}' | xargs -I {} cp {} $HOME/subtitle.srt
+      #ls -t | tail -n +2 | xargs -I {} rm {}
+      #mv -v *.srt $HOME/subtitle.srt
+      cd $HOME
+      echo "-----------------"
+      clear
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, sesuai durasi film"
+      echo "-----------------"
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "$title.mp4"
+      echo "-----------------"
+      #film > /dev/null 2>&1 &
+      film
+;;
+"Gambar")
+      clear
+      echo "-----------------"
+      echo "Get Youtube Thumbnail"
+      echo "-----------------"
+      echo "Enter Youtube URL"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      judul
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --write-thumbnail -o "$title" --skip-download --restrict-filenames "$url"
+      #$YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --list-thumbnails --skip-download "$url"
+     #clear
+     for x in *.webp; do mv "$x" "${x%.webp}.png"; done
+     lagu=$(find . -maxdepth 1 -type f -name "*.png")
+     lagu2=$(find . -maxdepth 1 -type f -name "*.jpg")
+     lagu3=$(find . -maxdepth 1 -type f -name "*.jpeg")
+     #clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Gambar  tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "$lagu2"
+     echo "$lagu3"
+     echo "-----------------"
+     mv "$lagu" $DIR
+     mv "$lagu2" $DIR
+     mv "$lagu3" $DIR
+     #mv *.png $DIR
+     #mv *.jpg $DIR
+     rm -rf .webp
+     rm -rf .png
+     rm -rf .jpeg
+     rm -rf .jpg
+     exit
+;;
+"Check")
+      clear
+      echo "-----------------"
+      echo "Check Link URL Selain Youtube Jika Bisa"
+      echo "-----------------"
+      echo "Enter URL:"
+      echo "-----------------"
+      read url
+      ref
+      echo "-----------------"
+      ref=$(cat $HOME/referer.txt)
+      echo $ref
+      echo "-----------------"
+      #ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url"
+      #echo "-----------------"
+      $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -F $url
+      exit
+;;
+"Reff")
+      clear
+      echo "-----------------"
+      echo "Convert Video Best Code"
+      echo "-----------------"
+      echo "Enter URL Youtube atau lainya"
+      echo "-----------------"
+      read url
+      echo "-----------------"
+      echo "Check URL With Referer"
+      ref
+      echo "-----------------"
+      ref=$(cat $HOME/referer.txt)
+      echo $ref
+      crop
+      echo "-----------------"
+      echo "Proses Download dan Convert Video MP4"
+      echo "-----------------"
+      echo "Ini butuh waktu lama, tergantung koneksi internet"
+      echo "-----------------"
+      echo "Codec:"
+      #ffprobe -hide_banner -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$url" 
+      echo "-----------------"
+      video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "best" -i -g $url})
+      echo "$video"
+      echo "-----------------"
+      #judul
+      echo "File tersimpan dengan nama:"
+      echo "-----------------"
+      echo "tiktok.mp4"
+      echo "-----------------"
+      aria2c -c -j 16 -x 16 -s 16 -k 1M --user-agent="$user_agent" --referer="$ref" -o tiktok.webm "$video"
+      echo "-----------------"
+      echo "Proses Convert FFMPEG"
+      echo "Tunggu sampai selesai"
+      echo "-----------------"
+      ffmpeg -y -re -loglevel warning -hide_banner -nostats -i tiktok.webm -threads 6 -filter_complex "crop=$crop" -c:v "libx264" -c:a "aac" -b:a 160k -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast"  tiktok.mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.webm
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+;;
+"Update")
+   update
+;;
+"Radio")
+          clear
+          host=$(cat $RADIO | awk -F " " 'NR == 1{print}')
+          port=$(cat $RADIO | awk -F " " 'NR == 2{print}')
+          paswd=$(cat $RADIO | awk -F " " 'NR == 3{print}')
+          echo "-----------------"
+          if [[ -f "$RADIO" ]]; then
+                  echo "Setingan sudah ada"
+                  echo "-----------------"
+           else
+                  echo "Setingan belum ada"
+                  echo "Masukan: Host , Port , Password"
+                  cd $HOME/.ssh
+                  echo "Host *" > config
+                  echo "HostkeyAlgorithms +ssh-dss" >> config
+                  echo "PubkeyAcceptedKeyTypes +ssh-dss" >> config
+                  #cat config
+                  cd $HOME
+                  echo "-----------------"
+                  echo "Enter Host:"
+                  echo "-----------------"
+                  read host
+                  echo "$host" > $RADIO
+                  ping -c 4 -s 64 $host
+                  echo "-----------------"
+                  echo "Enter Port"
+                  echo "-----------------"
+                  read port
+                  echo "$port" >> $RADIO
+                  echo "-----------------"
+                  echo "Enter Password:"
+                  echo "-----------------"
+                  read paswd
+                  echo "$paswd" >> $RADIO
+                  export SSHPASS="$paswd"
+                  ssh -T -p $port -n build@$host 
+                  exit
+          fi
+          echo "Kalau mau siaran ketik: Ya"
+          echo "Berhenti siaran ketik: Ok"
+          echo "Menghapus setingan ketik: Del"
+          read -p "Pilih: " yn
+          export SSHPASS="$paswd"
+          #echo $SSHPASS
+          echo "-----------------"
+          case $yn in
+                     [Yy]* ) echo "Sekarang anda bisa siaran"
+                                 echo "-----------------"
+                                 sshpass -e ssh -T -p $port -n build@$host './radio stop'
+                     ;;
+                     [Oo]* ) echo "Sudah capek? besok siaran lagi ya"
+                                  echo "Setelah ini Exit Termux dari notifikasi"
+                                  echo "-----------------"
+                                  sleep 3
+                                  sshpass -e ssh -T -p $port -n build@$host './radio start'
+                     ;;
+                     [Dd]* ) echo "Clear settings"
+                                  rm -rf $RADIO
+                                  cd $HOME/.ssh
+                                  rm -rf known_hosts
+                                  cd $HOME
+                     ;;
+                     * ) echo "Please answer Ya or Ok";;
+           esac
+           exit
+;;
+"Stop / Exit")
+   killall ffmpeg
+   exit
+;;
+*)
+        echo "Menu tidak ada $REPLY"
+;;
+     esac
+     done
+}
+
+film(){
+       ref=$(cat $HOME/referer.txt | awk -F " " 'NR == 1{print}')
+       video=$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --referer "$ref" -f "[height<=720]/best" -i -g "$url")
+       echo "$video"
+       echo "-----------------"
+       echo "$ref"
+       echo "-----------------"
+       echo "Poses Ini butuh waktu lama, sesuai durasi film"
+       echo "-----------------"
+       ffmpeg -y -re -loglevel warning -hide_banner -stats -itsoffset "-0.1" -i subtitle.srt adjustsubtitle.srt
+       ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -headers $"Referer: $ref"$'\r\n' -i "$video" -threads 6 -c:v "libx264" -x264-params crf="$crf" -movflags faststart -strict -2 -filter_complex "scale=-1:720,subtitles=adjustsubtitle.srt:force_style='Name=Default,FontName=Hack-BoldItalic,Fontsize=18,PrimaryColour=&Hffffff,SecondaryColour=&Hffffff,OutlineColour=&H44000000,BackColour=&H0,BorderStyle=2,Outline=1,Shadow=1,MarginV=2'" -c:a aac -tune "film" -preset:v "superfast" $title.mp4
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+}
+live(){
+      echo "Poses Ini butuh waktu lama, sesuai durasi yang diisi: $dur"
+      echo "-----------------"
+      #timeout $dur $YOUTUBE_DL -f "$res" -i $url --metadata-from-title "%(title)s" -o video.mp4
+      #sleep 5
+      #ffmpeg -loglevel warning -hide_banner -nostats -i video.mp4.part -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" "$title".mp4 && rm video.mp4.part
+      ffmpeg -y -re -loglevel warning -hide_banner -stats -user_agent "$user_agent" -i "$video" -t $dur -threads 6 -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" "$title".mp4
+      #ffmpeg -loglevel warning -hide_banner -stats -i $(LC_ALL=en_US.UTF-8 $YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" -f "$res" -i -g $url) -y -t $dur -c:v "libx264" -x264-params crf="$crf" -c:a "aac" -preset:v "superfast" "$title".mp4
+      #timeout $dur $YOUTUBE_DL -f "$res" -i $url --metadata-from-title "%(title)s" -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames --exec "ffmpeg -loglevel warning -hide_banner -nostats -i {} -y -c:v "libx264" -c:a "aac" -ac 2 -ar 48000 -filter:a "volume=1.0" -preset:v "superfast" {}.mp4 && rm {}"
+     # $YOUTUBE_DL --postprocessor-args "-ss 00:00:00 -t $dur"
+     clear
+     lagu=$(find -type f -name "*.mp4")
+     clear
+     echo "-----------------"
+     echo "Selesai"
+     echo "-----------------"
+     echo "Video MP4 tersimpan di $DIR"
+     echo "-----------------"
+     echo "$lagu"
+     echo "-----------------"
+     mv *.mp4 $DIR
+     rm -rf .mp4
+     rm -rf *.part
+     rm -rf *.ytdl
+     rm -rf *_-_*
+     exit
+}
+judul(){
+      title="$($YOUTUBE_DL --no-check-certificate --user-agent "$user_agent" --get-filename -o "%(title)s - Radio Dangdut 24 Jam - Radio Imzers Streaming" --restrict-filenames $url | sed 's/_/ /g' | sed 's/VIDEO//g' | sed 's/Video//g' | sed 's/video//g' | sed 's/MUSIC//g' | sed 's/Music//g' | sed 's/music//g' | sed 's/MUSIK//g' | sed 's/Musik//g' | sed 's/musik//g' | sed 's/OFFICIAL//g' | sed 's/Official//g' | sed 's/official//g' | sed 's/RECORD//g' | sed 's/Record//g' | sed 's/record//g' | sed 's/Lyric//g' | sed 's/lyric//g' | sed 's/Lirik//g' | sed 's/lirik//g' | sed 's/ANEKA//g' | sed 's/Aneka//g' | sed 's/aneka//g' | sed 's/SAFARI//g' | sed 's/Safari//g' | sed 's/Wahana//g' | sed 's/WAHANA//g' | sed 's/wahana//g' | sed 's/Ameswara//g' | sed 's/1Nusa//g' | sed 's/  */ /g')"
+}
+ref(){
+      echo $url > $HOME/film.txt
+      link=$(grep -n "mxdcontent" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "mxdcontent" ]] ; then
+      echo "https://mixdrop.co/" > $HOME/referer.txt
+      else
+      link=$(grep -n "videobin" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "videobin" ]] ; then
+      echo "https://videobin.co/" > $HOME/referer.txt
+      else
+      link=$(grep -n "vidlox" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "vidlox" ]] ; then
+      echo "https://vidlox.me/" > $HOME/referer.txt
+      else
+      link=$(grep -n "upstreamcdn" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "upstreamcdn" ]] ; then
+      echo "https://upstream.to/" > $HOME/referer.txt
+      else
+      link=$(grep -n "abcvideo" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "abcvideo" ]] ; then
+      echo "https://abcvideo.cc/" > $HOME/referer.txt
+      else
+      link=$(grep -n "vidoza" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "vidoza" ]] ; then
+      echo "https://vidoza.net/" > $HOME/referer.txt
+      else
+      link=$(grep -n "googleapis" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "googleapis" ]] ; then
+      echo "https://googleapis.com/" > $HOME/referer.txt
+      else
+      link=$(grep -n "vidcloud9" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "vidcloud9" ]] ; then
+      echo "https://vidcloud9.com/" > $HOME/referer.txt
+      else
+      link=$(grep -n "vidembed" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "vidembed" ]] ; then
+      echo "https://vidembed.net/" > $HOME/referer.txt
+      else
+      link=$(grep -n "cloudvideo" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "cloudvideo" ]] ; then
+      echo "https://cloudvideo.tv/" > $HOME/referer.txt
+      else
+      link=$(grep -n "tiktokcdn" $HOME/film.txt | awk -F "//" '{print $2}' | awk -F "." 'NR == 1{print $2}')
+      if [[ $link == "tiktokcdn" ]] ; then
+      echo "https://www.tiktok.com/" > $HOME/referer.txt
+      
+      else
+      echo "-----------------"
+      echo "Enter Referer"
+      read ref
+      echo $ref > $HOME/referer.txt
+      echo "-----------------"
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+      fi
+}
+crop(){
+      echo "-----------------"
+      echo "Crop Tiktok: iw:ih-170"
+      echo "Crop Tengah: iw-100:ih"
+      echo "Crop Tengah: iw:ih-100"
+      echo "Crop Tengah: iw-100:ih-100"
+      echo "Crop Tengah: iw-220:ih-150"
+      echo "Crop Tengah: iw-350:ih-200"
+      echo "Crop Tengah: iw-500:ih"
+      echo "Crop Tengah 480p: iw-585:ih"
+      echo "Crop Tengah 720p: iw-876:ih"
+      echo "Crop Tengah 1080p: iw-1314:ih"
+      echo "Crop Tengah 1920p: iw-2336:ih"
+      #echo "Crop Kiri: iw/2:ih:0:0"
+      #echo "Crop Kiri: (iw/2)-100:ih:0:0"
+      echo "Crop Kiri Setengah: iw/2:ih:0:0"
+      echo "Crop Kanan Setengah: iw/2:ih:iw/2:0"
+      echo "Crop Kiri Potrait: 300:ih:0:0"
+      echo "Crop Kanan Potrait: 300:ih:iw-300:0"
+      echo "Crop Kiri Potrait +50: 300:ih:100:0"
+      echo "Crop Kanan Potrait -50: 300:ih:iw-400:0"
+      echo "-----------------"
+      read crop
+      echo "$crop" > res.txt
+}
+case $1 in
+"install")
+   clear
+   echo "-----------------"
+   echo "MP3 dan MP4 tersimpan di $DIR"
+   sleep 3
+   echo "-----------------"
+   echo "Ijinkan penyimpanan file di filemanager"
+   echo "Tekan ijinkan atau allow atau y"
+   echo "-----------------"
+   sleep 6
+   termux-setup-storage
+   sleep 4
+   clear
+   ping -c 4 -s 560 1.1.1.1
+   if [ "$?" != "0" ];then
+		     echo "-------------------"
+             echo "Ping failed"
+             echo "Check Internet kamu"
+   else
+          #echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          clear
+          echo "-------------------"
+          echo "Install paket, ini butuh waktu lama.."
+          echo "-------------------"
+          sleep 4
+          clear
+          pkg install root-repo -y
+          clear
+          pkg install x11-repo -y
+          clear
+          pkg clean -y
+          pkg autoclean - y
+          pkg update -y
+          clear
+          mkdir $HOME/storage/shared/TermuxFiles
+          clear
+          pkg install apt nano -y
+          clear
+          pkg install openssh -y
+          clear
+          pkg install sshpass -y
+          clear
+          pkg install python -y
+          clear
+          pkg install ffmpeg -y
+          clear
+          pkg install aria2 -y
+          clear
+	      pkg install git -y
+          clear
+          pkg install python-pip -y
+          clear
+          #pkg install proot -y
+          #pkg install tsudo -y
+          #pkg install tsu -y
+          # wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
+	      # manual repo
+	      echo "Install youtube-dl proses agak lama"
+          pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+          clear
+          # chmod a+rx $PREFIX/bin/youtube-dl
+          cp lagu $PREFIX/bin/lagu
+          chmod a+rx $PREFIX/bin/lagu
+          rm lagu
+          rm wget-log
+          rm wget-log.*
+          pkg clean -y
+          pkg autoclean - y
+          clear
+          pkg update -y
+          clear
+          cd $PREFIX/etc/apt
+          ls
+          echo "-------------------"
+          cat sources.list
+          echo "-------------------"
+          cat sources.list.dpkg-old
+          echo "-------------------"
+          cd $PREFIX/etc/apt/sources.list.d
+          ls
+          echo "-------------------"
+          echo "Instalasi selesai"
+          echo "-------------------"
+          echo "Ketik: lagu"
+          echo "-------------------"
+          exit
+	 fi
+;;
+"repo")
+          clear
+         #https://github.com/termux/termux-packages/wiki/Mirrors
+          echo "Main"
+          cat $PREFIX/etc/apt/sources.list
+          echo "Dpkg"
+          cat $PREFIX/etc/apt/sources.list.dpkg-dist
+          echo "Game"
+          cat $PREFIX/etc/apt/sources.list.d/game.list
+          echo "Root"
+          cat $PREFIX/etc/apt/sources.list.d/root.list
+          echo "Science"
+          cat $PREFIX/etc/apt/sources.list.d/science.list
+          echo "Unstable"
+          cat $PREFIX/etc/apt/sources.list.d/unstable.list
+          echo "x11"
+          cat $PREFIX/etc/apt/sources.list.d/x11.list
+;;
+"repo-update")
+          rm -rf $PREFIX/etc/apt/sources.list.d/*.list
+          clear
+          echo "Main"
+          echo "deb https://packages.termux.org/apt/termux-main/ stable main" > $PREFIX/etc/apt/sources.list
+          echo "Dpkg"
+          echo "# The main termux repository:" > $PREFIX/etc/apt/sources.list.dpkg-dist
+          echo "deb https://termux.org/packages/ stable main" >> $PREFIX/etc/apt/sources.list.dpkg-dist
+          echo "Game"
+          echo "deb https://packages.termux.org/apt/termux-games games stable" > $PREFIX/etc/apt/sources.list.d/game.list
+          echo "Root"
+          echo "deb https://packages.termux.org/apt/termux-root root stable" > $PREFIX/etc/apt/sources.list.d/root.list
+          echo "Science"
+          echo "deb https://packages.termux.org/apt/termux-science science stable" > $PREFIX/etc/apt/sources.list.d/science.list
+          echo "Unstable.list"
+          echo "deb https://packages.termux.org/apt/termux-unstable unstable main" > $PREFIX/etc/apt/sources.list.d/unstable.list
+          echo "X11"
+          echo "deb https://packages.termux.org/apt/termux-x11 x11 main" > $PREFIX/etc/apt/sources.list.d/x11.list
+          pkg clean -y
+          pkg autoclean -y
+          pkg update -y
+          cd $PREFIX/etc/apt/sources.list.d
+          ls
+;;
+"keyboard")
+          clear
+          # Keyboard
+          #nano ~/.termux/termux.properties
+          #extra-keys = [ \ ['ESC','|','/','HOME','UP','END','PGUP','DEL'], \ ['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN','BKSP'] \ ]
+          # termux-reload-settings
+          echo "extra-keys = [ \ ['ESC','|','/','HOME','UP','END','PGUP','DEL'], \ ['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN','BKSP'] \ ]" >> ~/.termux/termux.properties
+          termux-reload-settings 
+;;
+"update")
+     update
+;;
+"youtube-dl")
+     echo "Update youtube-dl agak lama"
+     pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+;;
+*)
+        command
+;;
+esac
