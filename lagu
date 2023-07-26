@@ -1488,7 +1488,7 @@ case $1 in
 	  echo "Install youtube-dl proses agak lama"
 	  echo "-------------------"
       pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
-      yum -y reinstall openssl
+      pkg reinstall openssl -y
       sleep 3
 	  clear
       echo "-------------------"
