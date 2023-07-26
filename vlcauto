@@ -128,23 +128,23 @@ cmd(){
                                 
                                 #mpv --demuxer-lavf-format=mp3 http://id.radioimzers.com:8989 -v
                                 #mpv --ad=help
-                                #mpv -audio-device=alsa --no-video http://id.radioimzers.com:8989 -v
-                                #mpv -audio-device=alsa --no-video http://streaming.girifm.com:8010 -v
+                                #mpv --no-video http://id.radioimzers.com:8989 -v
+                                #mpv --no-video http://streaming.girifm.com:8010 -v
 
-                                #mpv $url -audio-device=alsa --no-video --hwdec=no --volume=110 -v
+                                #mpv $url --no-video --hwdec=no --volume=110 -v
                                 # --hwdec=auto-copy
-                                #mpv $url -audio-device=alsa --no-video --ytdl-format=ytdl --volume=110
-                                mpv $url --cache=yes --cache-secs=1 --no-config -audio-device=alsa --no-video --ytdl=no --volume=105
+                                #mpv $url --no-video --ytdl-format=ytdl --volume=110
+                                mpv $url --cache=yes --cache-secs=1 --no-config --no-video --ytdl=no --volume=105
                                 #mplayer $url -ao alsa:device=hw=1,0 -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
                                #mplayer $url -ao alsa:device=hw=1,0 -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
                             else
 	                            echo "Used Internal Audio"
 	                            echo "--------------------"
                                     #https://github.com/mpv-player/mpv/blob/master/player/lua/ytdl_hook.lua
-	                            #mpv $url -audio-device=alsa --no-video --msg-level ytdl_hook=trace --volume=110 -v 
-                                    #mpv $url -audio-device=alsa --no-video --ytdl-raw-options --volume=110 -v 
-                                    #mpv $url -audio-device=alsa --no-video --ytdl-format=ytdl --volume=110 -v
-                                    mpv $url --cache=yes --cache-secs=1 --no-config -audio-device=alsa --no-video --ytdl=no --volume=110
+	                            #mpv $url --no-video --msg-level ytdl_hook=trace --volume=110 -v 
+                                    #mpv $url --no-video --ytdl-raw-options --volume=110 -v 
+                                    #mpv $url --no-video --ytdl-format=ytdl --volume=110 -v
+                                    mpv $url --cache=yes --cache-secs=1 --no-config --no-video --ytdl=no --volume=110
                                     # --ytdl-raw-options=live-from-start= --no-config --ytdl-raw-options=ignore-config= --msg-level=all=v
                                     # --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace
                                     # --cache=8192 --cache-default=8192 --cache-seek-min=50 | --no-cache --cache=no --cache-default=no
