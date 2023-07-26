@@ -29,6 +29,7 @@ RADIO=$HOME/radiologin.txt
 #echo "$user_agent"
 #echo $HOME
 
+rm -rf .wget*
 rm -rf wget.log
 rm -rf *.aria2
 rm -rf *.webm
