@@ -1458,6 +1458,10 @@ case $1 in
                #break
     else
       echo "-------------------"
+	  youtube-dl --rm-cache-dir
+      wget $URLUPDATE -O $PREFIX/bin/lagu 
+      clear
+	  echo "-------------------"
       file=$(which youtube-dl)
       echo "rm -rf $file"
       echo "-------------------"
