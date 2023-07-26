@@ -1448,6 +1448,7 @@ case $1 in
           ls
 		  echo "-------------------"
 		  clear
+          rm -rf .cache/pip
 	      echo "-------------------"
           echo "Install VLCAUTO"
           echo "-------------------"
@@ -1566,10 +1567,6 @@ case $1 in
 ;;
 "update")
      update
-;;
-"youtube-dl")
-     echo "Update youtube-dl agak lama"
-     pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
 ;;
 *)
         command
