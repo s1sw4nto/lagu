@@ -69,6 +69,7 @@ update(){
           pkg clean -y
           pkg autoclean -y
           pkg update -y
+		  clear
           pkg reinstall openssl -y
           clear
           echo "-------------------"
