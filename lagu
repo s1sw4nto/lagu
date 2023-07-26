@@ -47,9 +47,7 @@ update(){
           echo "-------------------"
    else
           clear
-          #wget $URLUPDATE -O lagu
-          #cp lagu $PREFIX/bin/lagu
-          #rm lagu
+          echo "-------------------"
           youtube-dl --rm-cache-dir
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
@@ -58,6 +56,7 @@ update(){
           # manual repo
           #pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
           #clear
+		  echo "-------------------"
           cd $PREFIX/etc/apt
           ls
           echo "-------------------"
