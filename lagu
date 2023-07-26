@@ -1370,6 +1370,7 @@ case $1 in
    termux-setup-storage
    sleep 4
    clear
+   echo "-----------------"
    ping -c 4 -s 560 1.1.1.1
    if [ "$?" != "0" ];then
 		     echo "-------------------"
