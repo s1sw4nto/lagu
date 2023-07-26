@@ -1447,9 +1447,7 @@ case $1 in
 	      echo "-------------------"
           echo "Install VLCAUTO"
           echo "-------------------"
-	      wget $VLCAUTO -O $PREFIX/bin/vlcauto
-	      clear
-		  chmod a+rx vlcauto && ./vlcauto install
+	      wget $VLCAUTO -O vlcauto && chmod a+rx vlcauto && ./vlcauto install
           echo "-------------------"
           echo "Instalasi selesai"
           echo "-------------------"
