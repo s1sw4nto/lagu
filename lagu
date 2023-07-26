@@ -11,7 +11,7 @@
 # which ffmpeg
 # rm -rf $PREFIX/var/lib/apt/lists/lock
 # rm -rf $PREFIX/var/lib/dpkg/lock-frontend
-# echo "Nanti ketik Y terus" && pkg update -y && pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu && chmod a+rx lagu && ./lagu install
+# echo "Nanti ketik Y terus" && termux-change-repo && pkg update -y && pkg install wget -y && wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O lagu && chmod a+rx lagu && ./lagu install
 # wget lagu jika error
 # wget https://raw.githubusercontent.com/s1sw4nto/lagu/main/lagu -O $PREFIX/bin/lagu 
 # manual repo
