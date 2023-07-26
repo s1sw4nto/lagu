@@ -1469,6 +1469,8 @@ case $1 in
 	  echo "$PREFIX/lib/python3*"
 	  echo "-------------------"
 	  cd site-packages
+	  ls
+	  echo "-------------------"
       rm -rf youtube_dl*
 	  echo "Install youtube-dl proses agak lama"
 	  echo "-------------------"
