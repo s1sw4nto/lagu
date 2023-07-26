@@ -52,6 +52,7 @@ update(){
           clear
           echo "-------------------"
           youtube-dl --rm-cache-dir
+          rm -rf .cache/pip
           wget $URLUPDATE -O $PREFIX/bin/lagu 
           clear
           #wget https://yt-dl.org/downloads/latest/youtube-dl -O $PREFIX/bin/youtube-dl
@@ -1493,6 +1494,7 @@ case $1 in
       pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
       pkg reinstall openssl -y
       sleep 3
+      rm -rf .cache/pip
 	  clear
       echo "-------------------"
       echo "Update selesai"
