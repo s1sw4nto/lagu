@@ -33,15 +33,16 @@ mindur="210"
 dur="18000"
 
 update(){
+        echo "-------------------"
         ping -c 2 -s 50 google.com
         if [ "$?" != "0" ];then
 		           echo "-------------------"
                 echo "Ping failed"
         else
-               TEST=`curl -s https://pastebin.com/raw/3rG2AB1C | grep "URL" | awk -F '"' 'NR == 1 {print $4}'`
-               echo "$TEST" > radio1.txt
-               echo "-------------------"
-               echo "$TEST"
+               #TEST=`curl -s https://pastebin.com/raw/3rG2AB1C | grep "URL" | awk -F '"' 'NR == 1 {print $4}'`
+               #echo "$TEST" > radio1.txt
+               #echo "-------------------"
+               #echo "$TEST"
                echo "-------------------"
                wget $URLUPDATE -O $PREFIX/bin/vlcauto
                clear
@@ -53,6 +54,7 @@ update(){
 	      fi
 }
 station(){
+        echo "-------------------"
         ping -c 2 -s 50 google.com
         if [ "$?" != "0" ];then
 		           echo "-------------------"
@@ -212,6 +214,7 @@ stop(){
                         fi
 }
 status(){
+        clear
         echo "--------------------"
         cat radio1.txt
         echo "--------------------"
@@ -337,6 +340,7 @@ for (( i=20; i>0; i--)); do sleep 1 ;  done
 }
 case $1 in
 "update")
+        clear
         update
 		PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
@@ -369,6 +373,7 @@ case $1 in
         next
 ;;
 "url")
+      clear
       echo "--------------------"
       cat radio1.txt
       echo "--------------------"
@@ -404,6 +409,7 @@ case $1 in
        echo "--------------------"
 ;;
 "yt")
+      clear
       echo "--------------------"
       cat radio1.txt
       echo "--------------------"
@@ -435,6 +441,7 @@ case $1 in
        echo "--------------------"
 ;;
 "ytl")
+      clear
       echo "--------------------"
       cat radio1.txt
       echo "--------------------"
@@ -466,6 +473,7 @@ case $1 in
        echo "--------------------"
 ;;
 "ytpl")
+      clear
       echo "--------------------"
       cat radio1.txt
       echo "--------------------"
@@ -564,6 +572,7 @@ case $1 in
         echo "--------------------"
 ;;
 "radio")
+       clear
        echo "-------------------"
        echo "Pilih Radio Station:"
        echo "-------------------"
@@ -628,12 +637,15 @@ foods=("Imzers" "Wijaya" "Suara giri" "Perkasa" "Dakwatul" "Music Channel" "BOSS
         boot > /dev/null 2>&1 &
 ;;
 "install")
+   clear
+   echo "-------------------"
    ping -c 4 -s 560 1.1.1.1
    if [ "$?" != "0" ];then
 		     echo "-------------------"
              echo "Ping failed"
              echo "Check Internet kamu"
    else
+          echo "-------------------"
           pkg install mpv -y
           pkg install iconv -y
           pkg install jq -y
