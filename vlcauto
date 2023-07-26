@@ -646,7 +646,12 @@ foods=("Imzers" "Wijaya" "Suara giri" "Perkasa" "Dakwatul" "Music Channel" "BOSS
              echo "Check Internet kamu"
    else
           echo "-------------------"
-          pkg install mpv -y
+          pkg clean -y
+          pkg autoclean - y
+          clear
+          pkg update -y
+          clear
+		  pkg install mpv -y
           pkg install iconv -y
           pkg install jq -y
           cp vlcauto $PREFIX/bin/vlcauto
@@ -654,11 +659,8 @@ foods=("Imzers" "Wijaya" "Suara giri" "Perkasa" "Dakwatul" "Music Channel" "BOSS
           rm vlcauto
           rm wget-log
           rm wget-log.*
-          pkg clean -y
-          pkg autoclean - y
-          clear
-          pkg update -y
-          clear
+		  clear
+		  echo "-------------------"
           cd $PREFIX/etc/apt
           ls
           echo "-------------------"
