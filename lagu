@@ -1493,6 +1493,7 @@ case $1 in
 	  echo "Install youtube-dl proses agak lama"
 	  echo "-------------------"
       pip install git+https://github.com/ytdl-org/youtube-dl.git@master#egg=youtube_dl
+      clear
       pkg reinstall openssl -y
       sleep 3
       rm -rf .cache/pip
