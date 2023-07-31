@@ -365,8 +365,8 @@ case $1 in
         stop
 ;;
 "start")
-        #start > /dev/null 2>&1 &
-        start
+        start > /dev/null 2>&1 &
+        #start
 ;;
 "restart")
         stop > /dev/null 2>&1 &
