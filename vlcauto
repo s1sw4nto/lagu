@@ -182,10 +182,9 @@ start(){
         PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
                             echo "--------------------"
-                            echo "exit" > loop.txt
+                            echo "break" > loop.txt
                             echo "mpv Running: $PID"
                             kill $PID
-                            cmd
                             echo "--------------------"
                         else
                             echo "--------------------"
@@ -366,8 +365,8 @@ case $1 in
         stop
 ;;
 "start")
-        start > /dev/null 2>&1 &
-        #start
+        #start > /dev/null 2>&1 &
+        start
 ;;
 "restart")
         stop > /dev/null 2>&1 &
