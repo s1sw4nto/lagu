@@ -460,7 +460,7 @@ case $1 in
       read url
       echo $url > radio1.txt
       echo "--------------------"
-      $YOUTUBE_DL --no-check-certificate -f "92" --ignore-errors --get-title --get-url "$url" > youtubejson.txt
+      $YOUTUBE_DL --no-check-certificate -f "91" --ignore-errors --get-title --get-url "$url" > youtubejson.txt
                                 title=$(cat youtubejson.txt | awk -F " " 'NR == 1{print}' | iconv -f utf-8 -t ascii//translit | sed -E 's/[^[:alnum:][:blank:]]+/-/g' | sed 's/ *$//g' | sed 's/ -*$//g' | sed 's/-*$//g' | sed 's/_*$//g' | cut -c1-200)
                                 url=$(cat youtubejson.txt | awk -F " " 'NR == 2{print}')
                                 echo "Title: $title" > title.txt
