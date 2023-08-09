@@ -226,7 +226,7 @@ status(){
         cat radio1.txt
         echo "--------------------"
         PID=`ps aux | grep -w "vlcauto" | grep -v grep | awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
-        PID2=`ps aux | grep -w "mpv" | grep -v grep |awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
+        PID2=`ps aux | grep -w "mplayer" | grep -v grep |awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
                         if [ "$PID" ]; then
                             echo "VLC Bash Running:"
                             echo "--------------------"
