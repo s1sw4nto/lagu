@@ -158,8 +158,8 @@ cmd(){
                                     # --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace
                                     # --cache=8192 --cache-default=8192 --cache-seek-min=50 | --no-cache --cache=no --cache-default=no
                                     # --cache=yes --cache-secs=10
-                               mplayer $url -srate 48000 $equ -af lavcresample=48000 -novideo -msglevel all=4
-                               #mplayer $url -ao alsa:device=hw=0,0 -srate 48000 $equ -af lavcresample=48000 -novideo -msglevel all=4
+                               mplayer $url -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
+                               #mplayer $url -ao alsa:device=hw=1,0 -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
                             fi
                             PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                             if [ "$PID" ]; then
