@@ -115,13 +115,13 @@ cmd(){
                                    echo "-----------------"
                                    continue
                                 fi
-                                equ="-af equalizer=0:7:0:0:0:0:0:0:0:5"
+                                equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
                             else
                                 if [[ $ytgoogle == "googlevideo" ]]; then
                                     echo "continue" > loop.txt
-                                    equ="-af equalizer=0:7:0:0:0:0:0:0:0:5"
+                                    equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
                                 else
-                                    equ="-af equalizer=0:3:0:0:0:0:0:0:0:3"
+                                    equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
                                 fi
                                 url="$next"
                                 echo "Link bukan youtube"
@@ -139,9 +139,9 @@ cmd(){
                                 #mpv $url --no-video --hwdec=no --volume=100 -v
                                 # --hwdec=auto-copy
                                 #mpv $url --no-video --ytdl-format=ytdl --volume=100
-                                mpv $url --no-config --no-video --volume=$vol --ytdl=no --stop-playback-on-init-failure=yes --load-scripts=no --cache=yes 
+                                #mpv $url --no-config --no-video --volume=$vol --ytdl=no --stop-playback-on-init-failure=yes --load-scripts=no --cache=yes 
                                  
-                                #mplayer $url -ao alsa:device=hw=1,0 -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
+                                mplayer $url -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
                                #mplayer $url -ao alsa:device=hw=1,0 -srate 48000 -af lavcresample=48000 $equ -novideo -msglevel all=4
                             else
 	                            echo "Used Internal Audio"
@@ -151,23 +151,24 @@ cmd(){
                                     #mpv $url --no-video --ytdl-raw-options --volume=100 -v 
                                     #mpv $url --no-video --ytdl-format=ytdl --volume=100 -v
                                     #mpv $url --no-config --no-video --ytdl=no --volume=100
-                                    mpv $url --no-config --no-video --volume=$vol --ytdl=no --stop-playback-on-init-failure=yes --load-scripts=no --cache=yes 
+                                    
+                                    #mpv $url --no-config --no-video --volume=$vol --ytdl=no --stop-playback-on-init-failure=yes --load-scripts=no --cache=yes 
                                     
                                     # --ytdl-raw-options=live-from-start= --no-config --ytdl-raw-options=ignore-config= --msg-level=all=v
                                     # --no-config --script-opts=ytdl_hook-ytdl_path=yt-dlp --msg-level=all=no,ytdl_hook=trace
                                     # --cache=8192 --cache-default=8192 --cache-seek-min=50 | --no-cache --cache=no --cache-default=no
                                     # --cache=yes --cache-secs=10
-                               #mplayer $url -ao alsa:device=hw=0,0 -srate 48000 $equ -af lavcresample=48000 -novideo -msglevel all=4
+                               mplayer $url -srate 48000 $equ -af lavcresample=48000 -novideo -msglevel all=4
                                #mplayer $url -ao alsa:device=hw=0,0 -srate 48000 $equ -af lavcresample=48000 -novideo -msglevel all=4
                             fi
-                            PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+                            PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                             if [ "$PID" ]; then
                                  echo "--------------------"
-                                 echo "mpv Running: $PID"
+                                 echo "Player Running: $PID"
                                  echo "--------------------"
                             else
                                  echo "--------------------"
-                                 echo "mpv Not Running"
+                                 echo "Player Not Running"
                                  echo "--------------------"
                                  loop=$(cat loop.txt)
                                  $loop
@@ -179,22 +180,22 @@ cmd(){
          
 }
 start(){
-        PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+        PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
                             echo "--------------------"
                             echo "break" > loop.txt
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             kill $PID
                             echo "--------------------"
                         else
                             echo "--------------------"
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             cmd
                         fi
 }
 stop(){
         PID=`ps aux | grep -w 'vlcauto' |grep -v grep |awk -F" " '{print $2}'`
-        PID2=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " '{print $2}'`
+        PID2=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " '{print $2}'`
                         if [ "$PID2" ]; then
 						    echo "exit" > loop.txt
                             for next in $PID2; do
@@ -204,7 +205,7 @@ stop(){
                             done
                         else
                             echo "--------------------"
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             echo "--------------------"
                         fi
                         if [ "$PID" ]; then
@@ -224,8 +225,8 @@ status(){
         echo "--------------------"
         cat radio1.txt
         echo "--------------------"
-        PID=`ps aux | grep -nw "vlcauto" | grep -v grep | awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
-        PID2=`ps aux | grep -nw "mpv" | grep -v grep |awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
+        PID=`ps aux | grep -w "vlcauto" | grep -v grep | awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
+        PID2=`ps aux | grep -w "mpv" | grep -v grep |awk -F" " ' {print $11 " " $12 " " $13 " " $14 " " $15}'`
                         if [ "$PID" ]; then
                             echo "VLC Bash Running:"
                             echo "--------------------"
@@ -237,13 +238,13 @@ status(){
                             echo "--------------------"
                         fi
                         if [ "$PID2" ]; then
-                            echo "mpv Running:"
+                            echo "Player Running:"
                             echo "--------------------"
                             echo "$PID2"
                             echo "--------------------"
                         else
                             echo "--------------------"
-                            echo "mpv Not Running:"
+                            echo "Player Not Running:"
                             echo "--------------------"
                         fi
                         cat title.txt
@@ -311,16 +312,16 @@ judul2(){
                             echo "Title: $title" > title.txt
 }
 next(){
-                   PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+                   PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
                             echo "--------------------"
                             echo "continue" > loop.txt
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             kill $PID
                             echo "--------------------"
                         else
                             echo "--------------------"
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             cmd
                         fi
 }
@@ -348,13 +349,13 @@ case $1 in
 "update")
         clear
         update
-		PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+		PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             start > /dev/null 2>&1 &
                         fi
 ;;
@@ -403,13 +404,13 @@ case $1 in
       esac
       echo "--------------------"
       cat radio1.txt
-      PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+      PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             start > /dev/null 2>&1 &
                         fi
        echo "--------------------"
@@ -439,9 +440,9 @@ case $1 in
                                 echo "Durasi: $durasi"
                                 echo "Title: $title"
                                 echo "--------------------"
-      PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+      PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
@@ -469,9 +470,9 @@ case $1 in
                                 echo "--------------------"
                                 echo "Title: $title"
                                 echo "--------------------"
-      PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+      PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
@@ -567,13 +568,13 @@ case $1 in
       else
           echo "Tanpa sort durasi"
       fi
-      PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+      PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         fi
@@ -629,13 +630,13 @@ foods=("Imzers" "Wijaya" "Suara giri" "Perkasa" "Dakwatul" "Music Channel" "BOSS
            station
         ;;
         esac
-        PID=`ps aux | grep -w 'mpv' |grep -v grep |awk -F" " ' {print $2}'`
+        PID=`ps aux | grep -w 'mplayer' |grep -v grep |awk -F" " ' {print $2}'`
                         if [ "$PID" ]; then
-                            echo "mpv Running: $PID"
+                            echo "Player Running: $PID"
                             #stop > /dev/null 2>&1 &
                             start > /dev/null 2>&1 &
                         else
-                            echo "mpv Not Running"
+                            echo "Player Not Running"
                             start > /dev/null 2>&1 &
                         fi
         exit
@@ -660,6 +661,7 @@ foods=("Imzers" "Wijaya" "Suara giri" "Perkasa" "Dakwatul" "Music Channel" "BOSS
           pkg update -y
           clear
 		  pkg install mpv -y
+		  pkg install mplayer -y
           pkg install iconv -y
           pkg install jq -y
           cp vlcauto $PREFIX/bin/vlcauto
