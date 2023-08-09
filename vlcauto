@@ -115,13 +115,13 @@ cmd(){
                                    echo "-----------------"
                                    continue
                                 fi
-                                equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
+                                equ="-af equalizer=2:5:0:0:0:0:0:0:3:1"
                             else
                                 if [[ $ytgoogle == "googlevideo" ]]; then
                                     echo "continue" > loop.txt
-                                    equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
+                                    equ="-af equalizer=2:5:0:0:0:0:0:0:3:1"
                                 else
-                                    equ="-af equalizer=4:7:0:0:0:0:0:0:5:3"
+                                    equ="-af equalizer=2:5:0:0:0:0:0:0:3:1"
                                 fi
                                 url="$next"
                                 echo "Link bukan youtube"
